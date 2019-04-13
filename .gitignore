@@ -6,6 +6,9 @@ _pycache_/
 # C extensions
 *.so
 
+# Custom ignore
+settings.py
+
 # Distribution / packaging
 .Python
 build/

@@ -52,3 +52,5 @@ def vUsuarios(request):
     context = {'fUsuarios' : usuario}
     return render(request, 'usuarios/admin/registroUsuarios.html', context)
         
+def vTestAdmin(request):
+    return render(request, 'base/admin.html')
