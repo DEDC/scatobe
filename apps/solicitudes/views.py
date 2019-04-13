@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404
-from .forms import fZonas, fGerentes, fCategorias, fTipos, fFanPages, fImagenes, fSolicitudes
-from .models import Zonas, Imagenes
+from .forms import fZonas, fCategorias, fTipos, fFanPages, fImagenes, fSolicitudes
+from .models import Zonas, Categorias, Tipos, FanPages, Solicitudes, Imagenes
     
 def vTabla(request):
-    return render(request, 'solicitudes/tabla.html')
+    solicitudes = Solicitudes.objects.all()
+    context = {'solicitudes' : solicitudes}
+    return render(request, 'solicitudes/tabla.html', context)
 
-# CRUD Zonas
+#--- CRUD Zonas
 def vRegistroZonas(request):
     if request.method == 'POST':
         zona = fZonas(request.POST)
@@ -33,26 +35,21 @@ def vEditarZonas(request, id):
     context = {'edZonas' : fzona}
     return render(request, 'solicitudes/tabla.html', context)
 
-def vEliminarZona(request, id):
+def vEliminarZonas(request, id):
     zona = get_object_or_404(Zonas, pk = id)
     if request.method == 'POST':
         zona.delete()
     return render(request, 'solicitudes/tabla.html')
 
-# CRUD Gerentes
-def vRegistroGerentes(request):
-    if request.method == 'POST':
-        gerente = fGerentes(request.POST)
-        if gerente.is_valid():
-            gerente.save()
-            print('gerente agregado')
-        else:
-            print('gerente no agregado')
-    else:
-        gerente = fGerentes()
-    context = {'rGerentes' : gerente}
-    return render(request, 'solicitudes/tabla.html', context)
+def vObtenerZona(id):
+    zona = get_object_or_404(Zonas, pk = id)
+    return zona
 
+def vObtenerZonas():
+    zonas = Zonas.objects.all()
+    return zonas
+
+#--- CRUD Categorías
 def vRegistroCategorias(request):
     if request.method == 'POST':
         categoria = fCategorias(request.POST)
@@ -63,9 +60,38 @@ def vRegistroCategorias(request):
             print('categoria no agregada')
     else:
         categoria = fCategorias()
-    context = {'rCategoria' : categoria}
+    context = {'rCategorias' : categoria}
     return render(request, 'solicitudes/tabla.html', context)
 
+def vEditarCategorias(request, id):
+    categoria = get_object_or_404(Categorias, pk = id)
+    if request.method == 'POST':
+        fcategoria = fCategorias(request.POST, instance = categoria)
+        if fcategoria.is_valid():
+            fcategoria.save()
+            print('categoria editada')
+        else:
+            print('categoria no editada')
+    else:
+        fcategoria = fCategorias(instance = categoria)
+    context = {'edCategorias' : fcategoria}
+    return render(request, 'solicitudes/tabla.html', context)
+
+def vEliminarCategorias(request, id):
+    categoria = get_object_or_404(Categorias, pk = id)
+    if request.method == 'POST':
+        categoria.delete()
+    return render(request, 'solicitudes/tabla.html')
+
+def vObtenerCategoria(id):
+    categoria = get_object_or_404(Categorias, pk = id)
+    return categoria
+
+def vObtenerCategorias():
+    categorias = Categorias.objects.all()
+    return categorias
+
+#--- CRUD Tipos
 def vRegistroTipos(request):
     if request.method == 'POST':
         tipo = fTipos(request.POST)
@@ -79,6 +105,35 @@ def vRegistroTipos(request):
     context = {'rTipos' : tipo}
     return render(request, 'solicitudes/tabla.html', context)
 
+def vEditarTipos(request, id):
+    tipo = get_object_or_404(Tipos, pk = id)
+    if request.method == 'POST':
+        ftipo = fTipos(request.POST, instance = tipo)
+        if ftipo.is_valid():
+            ftipo.save()
+            print('tipo editado')
+        else:
+            print('tipo no editada')
+    else:
+        ftipo = fTipos(instance = tipo)
+    context = {'edTipos' : ftipo}
+    return render(request, 'solicitudes/tabla.html', context)
+
+def vEliminarTipos(request, id):
+    tipo = get_object_or_404(Tipos, pk = id)
+    if request.method == 'POST':
+        tipo.delete()
+    return render(request, 'solicitudes/tabla.html')
+
+def vObtenerTipo(id):
+    tipo = get_object_or_404(Tipos, pk = id)
+    return tipo
+
+def vObtenerTipos():
+    tipos = Tipos.objects.all()
+    return tipos
+
+#--- CRUD FanPages
 def vRegistroFanPages(request):
     if request.method == 'POST':
         fanPage = fFanPages(request.POST)
@@ -89,9 +144,38 @@ def vRegistroFanPages(request):
             print('fanpage no agregada')
     else:
         fanPage = fFanPages()
-    context = {'rFanPage' : fanPage}
+    context = {'rFanPages' : fanPage}
     return render(request, 'solicitudes/tabla.html', context)
 
+def vEditarFanPages(request, id):
+    fanPage = get_object_or_404(FanPages, pk = id)
+    if request.method == 'POST':
+        ffanpage = fFanPages(request.POST, instance = fanPage)
+        if ffanpage.is_valid():
+            ffanpage.save()
+            print('fanpage editada')
+        else:
+            print('fanpage no editada')
+    else:
+        ffanpage = fFanPages(instance = fanPage)
+    context = {'edFanPages' : ffanpage}
+    return render(request, 'solicitudes/tabla.html', context)
+
+def vEliminarFanPages(request, id):
+    fanpage = get_object_or_404(FanPages, pk = id)
+    if request.method == 'POST':
+        fanpage.delete()
+    return render(request, 'solicitudes/tabla.html')
+
+def vObtenerFanPage(id):
+    fanpage = get_object_or_404(FanPages, pk = id)
+    return fanpage
+
+def vObtenerFanPages():
+    fanpages = FanPages.objects.all()
+    return fanpages
+
+#--- CRUD Solicitudes
 def vRegistroSolicitudes(request):
     if request.method == 'POST':
         imagen = fImagenes(request.POST, request.FILES)
@@ -107,4 +191,22 @@ def vRegistroSolicitudes(request):
         solicitud = fSolicitudes()
         imagen = fImagenes()
     context = {'rSolicitudes' : solicitud, 'rImagenes' : imagen}
-    return render(request, 'solicitudes/tabla.html', context)
+    return render(request, 'solicitudes/registroSolicitud.html', context)
+
+# def vEditarSolicitudes(request, id):
+#     solicitud = get_object_or_404(Solicitudes, pk = id)
+#     if request.method == 'POST':
+#         fsolicitud = fSolicitudes(request.POST, instance = solicitud)
+#         if fsolicitud.is_valid():
+#             fsolicitud.save()
+#             print('solicitud editada')
+#         else:
+#             print('solicitud no editada')
+#     else:
+#         fsolicitud = fSolicitudes(instance = solicitud)
+#     context = {'edSolicitudes' : fsolicitud}
+#     return render(request, 'solicitudes/tabla.html', context)
+
+
+
+

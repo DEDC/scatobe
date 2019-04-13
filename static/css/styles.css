@@ -1,0 +1,33 @@
+html, body {
+    font-family: 'Source Sans Pro', sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+table.dataTable.no-footer {
+    border-bottom: none !important;
+}
+
+thead tr th {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    color: #FFFFFF;
+    background: #02457A;
+    padding: 18px 18px !important;
+    text-align: center;
+}
+
+tbody tr td {
+    text-align: center;
+    padding: 18px 18px !important;
+    border-bottom: 1px solid #97CAD8;
+}
+
+tbody tr td a{
+    color: #02457A;
+}
+
+tbody tr[role]:hover {
+    background: #D6E8EE;
+}

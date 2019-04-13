@@ -1,18 +1,84 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>THE REAL SCA | TOBE</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{% static 'css/uikit/uikit.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
+
 <body>
-    <h1>solifcvic</h1>
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{edZonas.as_p}}
-        {{rImagenes.as_p}}
-        <button type="submit">wardar</button>
-    </form>
+    <main>
+        <table id="example" class="" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Solicitud</th>
+                    <th>Folio</th>
+                    <th>Zona</th>
+                    <th>Gerente</th>
+                    <th>Categoría</th>
+                    <th>Tipo</th>
+                    <th>FanPage</th>
+                    <th>Post</th>
+                    <th>Screen</th>
+                    <th>Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solicitud in solicitudes %}
+                <tr>
+                    <td>{{ solicitud.fecha|date:"SHORT_DATE_FORMAT" }}</td>
+                    <td>{{solicitud.folio}}</td>
+                    <td>{{solicitud.zona}}</ted>
+                    <td>{{solicitud.gerente}}</tde>
+                    <td>{{solicitud.categoria}}</td>
+                    <td>{{solicitud.tipo}}</td>
+                    <td>{{solicitud.fanPage}}</td>
+                    <td>{{ solicitud.post|date:"SHORT_DATE_FORMAT" }}</td>
+                    <td>
+                        <a href="#" class="open-lightbox"><i class="far fa-image"></i></a>
+                        <div uk-lightbox="animation: scale">
+                        {% for imagen in solicitud.imagenes_set.all %}
+                            <a class="" href="{% get_static_prefix %}images/{{imagen.imagen}}" data-caption="{{imagen.nombre}}"></a>
+                        {% endfor %}
+                        </div>
+                    </td>
+                    <td><a href="{{solicitud.link}}" title="" target="_blank"><i class="fas fa-link"></i></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+    <script src="{% static 'js/jq.min.js' %}"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script src="{% static 'js/uikit/uikit.min.js' %}"></script>
+    <script>
+        // Llevarse todo esto a un js externo
+        $(function(){
+            $('#example').DataTable({
+                "lengthChange": false,
+                "info": false,
+                "language": {
+                    "paginate": {
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    "zeroRecords": "Sin resultados",
+                    "search": "Filtrar :"
+                }
+            });
+            $('.open-lightbox').on('click', function(){
+               UIkit.lightbox($(this).siblings()).show();
+            });
+        });
+    </script>
 </body>
+
 </html>

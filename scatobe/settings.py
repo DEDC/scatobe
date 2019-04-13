@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.solicitudes'
+    'apps.solicitudes',
+    'apps.usuarios'
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,6 @@ USE_TZ = True
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'images')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = 'pedo/'
+LOGIN_URL = 'pedorro/'
