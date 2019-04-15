@@ -1,20 +1,86 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Principal admin</title>
-</head>
-<body>
-    <a target="__blank" href="{% url 'usuarios:rUsuarios' %}">Usuarios</a>
-    <a target="__blank" href="{% url 'usuarios:rZonas' %}">Zonas</a>
-    <a target="__blank" href="">Categorías</a>
-    <a target="__blank" href="">Tipos</a>
-    <a target="__blank" href="">Gerentes</a>
-    <a target="__blank" href="">FanPages</a>
-    <a target="__blank" href="">Solicitudes</a>
-    <a target="__blank" href="">Roles y permisos</a>
-    {% extends '' %}
-</body>
-</html>
+{% extends "base/base.html" %}
+
+{% block title %}Administrador{% endblock title %}
+
+{% block body %}
+    <button id="btnAlert">Press</button>
+{% endblock body %}
+
+{% block mesReferencia %}
+    NOVIEMBRE
+{% endblock mesReferencia %}
+
+{% block publicacionesTotales %}
+    3500
+{% endblock publicacionesTotales %}
+
+{% block zonalbox %}
+    <div class="zonal1">Zona Villahermosa <div class="numerozona"><i class="fas fa-caret-right"></i> 55</div></div>
+    <div class="zonal1">Zona Tabasco <div class="numerozona"><i class="fas fa-caret-right"></i> 24</div></div>
+    <div class="zonal1">Zona Mérida <div class="numerozona"><i class="fas fa-caret-right"></i> 90</div></div>
+    <div class="zonal1">Zona Campeche <div class="numerozona"><i class="fas fa-caret-right"></i> 94</div></div>
+    <div class="zonal1">Zona Riviera Maya <div class="numerozona"><i class="fas fa-caret-right"></i> 30</div></div>
+    <div class="zonal2">Zona Cancún <div class="numerozona"><i class="fas fa-caret-right"></i> 37</div></div>
+{% endblock zonalbox %}
+
+{% block menu %}
+    <div class="boton"><i class="fas fa-plus"></i>&nbsp;&nbsp;AGREGAR</div>
+    <div class="boton"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;GENERAR PDF</div>
+    <div class="boton"><i class="fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;DESCARGAR FACTURA</div>
+    <div class="boton"><i class="far fa-comment-alt"></i>&nbsp;&nbsp;AYUDA</div>
+    <div class="boton"><i class="fas fa-cog"></i>&nbsp;&nbsp;CONFIGURACIÓN</div>
+    <div class="boton"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;LOGOUT</div>
+{% endblock menu %}
+
+{% block tablaDetalles %}
+    <!-- tabla 01 ---------------------------------------->
+    <table align="center" cellspacing="0">
+        <thead>
+            <tr>
+                <th width="050"><input type="checkbox"></th>
+                <th width="110">Solicitud</th>
+                <th width="130">Folio</th>
+                <th width="130">Zona</th>
+                <th width="180">Gerente</th>
+                <th width="180">Categoría</th>
+                <th width="130">Tipo</th>
+                <th width="140">Fanpage</th>
+                <th width="110">Post</th>
+                <th width="180">Opciones</th>
+            </tr>
+        </thead>
+        <tbody align="center">
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>10/04/19</td>
+                <td>CH-MA-0002378</td>
+                <td>Mérida</td>
+                <td>Jaime Solis</td>
+                <td>MartiMiércoles</td>
+                <td>Local</td>
+                <td>Yucatán</td>
+                <td>11/04/19</td>
+                <td>
+                    <i class="far fa-image"></i>
+                    <i class="fas fa-link"></i>
+                    <i class="fas fa-download"></i>
+                    <i class="far fa-edit"></i>
+                    <i class="fas fa-trash-alt"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- tabla 01 ---------------------------------------->
+    
+{% endblock tablaDetalles %}
+
+{% block javascript %}
+    <script>
+        // self executing function here
+        (function() {
+            document.getElementById('btnAlert').addEventListener('click', () => {
+                alert('test')
+            });
+        })();
+    </script>
+{% endblock javascript %}
