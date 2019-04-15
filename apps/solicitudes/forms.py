@@ -1,5 +1,5 @@
 from django import forms
-from .models import Categorias, FanPages, Imagenes, Zonas, Solicitudes, Tipos
+from .models import Categorias, FanPages, Imagenes, Zonas, Solicitudes, Tipos, Gerentes
 
 class fSolicitudes(forms.ModelForm):
     class Meta:
@@ -28,6 +28,11 @@ class fTipos(forms.ModelForm):
 class fFanPages(forms.ModelForm):
     class Meta:
         model = FanPages
+        fields = '__all__'
+    
+class fGerentes(forms.ModelForm):
+    class Meta:
+        model = Gerentes
         fields = '__all__'
 
 class fImagenes(forms.ModelForm):

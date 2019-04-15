@@ -10,12 +10,21 @@ def vLogin(request):
         autenticado = authenticate(request, username = usuario, password = contrasena)
         if autenticado:
             login(request, autenticado)
+            if request.user.groups.filter(name = 'Administrador').exists():
+                return redirect('usuarios:pAdmin')
+            else:
+                return redirect('usuarios:pCH')
             messages.success(request, 'Bienvenido')
-            return redirect('usuarios:registroUsuarios')
         else:
             messages.error(request, 'Usuario o contraseña inválidas. Intente de nuevo')
             return redirect ('usuarios:login')
     return render(request, 'usuarios/login.html')
+
+def vPrincipalAdmin(request):
+    return render(request, 'usuarios/admin/principalAdmin.html')
+
+def vPrincipalCH(request):
+    return render(request, 'usuarios/ch/principalCH.html')
 
 def vGrupos(request):
     if request.method == 'POST':
@@ -39,7 +48,7 @@ def vPermisos(request):
     context = {'fPermisos' : permiso}
     return render(request, 'usuarios/registroUsu.html', context)
 
-def vUsuarios(request):
+def vRegistroUsuarios(request):
     if request.method == 'POST':
         usuario = fUsuarios(request.POST)
         if usuario.is_valid():

@@ -27,7 +27,7 @@
 
 {% block menu %}
     <div class="boton"><i class="fas fa-plus"></i>&nbsp;&nbsp;AGREGAR</div>
-    <div class="boton"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;GENERAR PDF</div>
+    <div id="makePdf" class="boton"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;GENERAR PDF</div>
     <div class="boton"><i class="fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;DESCARGAR FACTURA</div>
     <div class="boton"><i class="far fa-comment-alt"></i>&nbsp;&nbsp;AYUDA</div>
     <div class="boton"><i class="fas fa-cog"></i>&nbsp;&nbsp;CONFIGURACIÓN</div>
@@ -52,24 +52,26 @@
             </tr>
         </thead>
         <tbody align="center">
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>10/04/19</td>
-                <td>CH-MA-0002378</td>
-                <td>Mérida</td>
-                <td>Jaime Solis</td>
-                <td>MartiMiércoles</td>
-                <td>Local</td>
-                <td>Yucatán</td>
-                <td>11/04/19</td>
-                <td>
-                    <i class="far fa-image"></i>
-                    <i class="fas fa-link"></i>
-                    <i class="fas fa-download"></i>
-                    <i class="far fa-edit"></i>
-                    <i class="fas fa-trash-alt"></i>
-                </td>
-            </tr>
+            {% for i in i|rjust:20 %}    
+                <tr>
+                    <td><input class="checkDownload" name="checkbox[{{ forloop.counter }}]" type="checkbox"></td>
+                    <td>10/04/19</td>
+                    <td>CH-MA-0002378{{ forloop.counter }}</td>
+                    <td>Mérida</td>
+                    <td>Jaime Solis</td>
+                    <td>MartiMiércoles</td>
+                    <td>Local</td>
+                    <td>Yucatán</td>
+                    <td>11/04/19</td>
+                    <td>
+                        <i class="far fa-image"></i>
+                        <i class="fas fa-link"></i>
+                        <i class="fas fa-download"></i>
+                        <i class="far fa-edit"></i>
+                        <i class="fas fa-trash-alt"></i>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
     <!-- tabla 01 ---------------------------------------->
@@ -82,6 +84,17 @@
         (function() {
             document.getElementById('btnAlert').addEventListener('click', () => {
                 alert('test')
+            });
+            document.getElementById('makePdf').addEventListener('click', () => {
+                
+                let checkDownload = document.getElementsByClassName('checkDownload')
+                for (let item of checkDownload) {
+                    if (item.checked) {
+                        console.log('tiene checado');
+                    }
+                }
+                
+                alert('tatan, creaste un pdf')
             });
         })();
     </script>
