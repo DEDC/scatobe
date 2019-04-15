@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from .forms import fZonas, fCategorias, fTipos, fFanPages, fImagenes, fSolicitudes
-from .models import Zonas, Categorias, Tipos, FanPages, Solicitudes, Imagenes
+from .forms import fZonas, fCategorias, fTipos, fFanPages, fGerentes, fImagenes, fSolicitudes
+from .models import Zonas, Categorias, Tipos, FanPages, Solicitudes, Gerentes, Imagenes
     
 def vTabla(request):
     solicitudes = Solicitudes.objects.all()
@@ -174,6 +174,42 @@ def vObtenerFanPage(id):
 def vObtenerFanPages():
     fanpages = FanPages.objects.all()
     return fanpages
+
+#--- CRUD Gerentes
+def vRegistroGerentes(request):
+    if request.method == 'POST':
+        gerente = fGerentes(request.POST)
+        if gerente.is_valid():
+            gerente.save()
+    else:
+        gerente = fGerentes()
+    context = {'fGerentes' : gerente}
+    return render(request, 'solicitudes/registroSolicitud.html', context)
+
+def vEditarGerentes(request, id):
+    gerente = get_object_or_404(Gerentes, pk = id)
+    if request.method == 'POST':
+        fgerente = fGerentes(request.POST, instance = gerente)
+        if fgerente.is_valid():
+            fgerente.save()
+    else:
+        fgerente = fGerentes(instance = gerente)
+    context = {'edGerentes' : fgerente}
+    return render(request, 'solicitudes/sdfds.html', context)
+    
+def vEliminarGerentes(request, id):
+    gerente = get_object_or_404(Gerentes, pk = id)
+    if request.method == 'POST':
+        gerente.delete()
+    return render(request, 'solicitudes/tabla.html')
+
+def vObtenerGerente(id):
+    gerente  = get_object_or_404(Gerentes, pk = id)
+    return gerente
+
+def vObtenerGerentes():
+    gerentes = Gerentes.objects.all()
+    return gerentes
 
 #--- CRUD Solicitudes
 def vRegistroSolicitudes(request):
