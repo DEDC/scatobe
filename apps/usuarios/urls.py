@@ -1,4 +1,5 @@
-from .views import vLogin, vRegistroUsuarios, vPrincipalAdmin, vPrincipalCH, vUsuarios, vTestAdmin
+from django.urls import path
+from .views import vLogin, vRegistroUsuarios, vPrincipalAdmin, vPrincipalCH, vTestAdmin
 from apps.solicitudes.views import (vRegistroZonas, vEditarZonas, vEliminarZonas,
                                     vRegistroCategorias, vEditarCategorias, vEliminarCategorias,
                                     vRegistroTipos, vEditarTipos, vEliminarTipos,
@@ -11,9 +12,9 @@ urlpatterns = [
     #--- Login
     path('', vLogin, name = 'login'),
     
-    path('admin/nvo-usuario', vUsuarios, name = 'registroUsuarios'),
-    path('home/', vUsuarios, name = 'home'),
-    path('testAdmin/', vTestAdmin, name = 'testAdmin')
+    # path('admin/nvo-usuario', vUsuarios, name = 'registroUsuarios'),
+    # path('home/', vUsuarios, name = 'home'),
+    path('testAdmin/', vTestAdmin, name = 'testAdmin'),
     
     path('admin/', vPrincipalAdmin, name = 'pAdmin'),
     path('home/', vPrincipalCH, name = 'pCH'),
