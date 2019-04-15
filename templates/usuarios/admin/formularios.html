@@ -42,8 +42,15 @@
         <button type="submit">wardar</button>
     </form>
     <br><br>
+    <h1>Usuarios</h1>
+    <form action="{% url 'usuarios:rUsuarios' %}" method="post">
+        {% csrf_token %}
+        {{rUsuarios.as_p}}
+        <button type="submit">wardar</button>
+    </form>
+    <br><br>
     <h1>Solicitudes</h1>
-    <form action="" method="post">
+    <form action="{% url 'usuarios:rSolicitudes' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{rSolicitudes.as_p}}
         {{rImagenes.as_p}}

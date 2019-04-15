@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import fZonas, fCategorias, fTipos, fFanPages, fGerentes, fImagenes, fFacturas, fSolicitudes
 from .models import Zonas, Categorias, Tipos, FanPages, Solicitudes, Gerentes, Imagenes
-    
+from apps.usuarios.forms import fUsuarios
+
 def vTabla(request):
     solicitudes = Solicitudes.objects.all()
     context = {'solicitudes' : solicitudes}
@@ -16,7 +17,8 @@ def vFormularios(request):
     solicitudes = fSolicitudes()
     imagenes = fImagenes()
     facturas = fFacturas()
-    context = {'rZonas' : zonas, 'rCategorias' : fCategorias, 'rTipos' : tipos, 'rGerentes' : gerentes, 'rFanPages' : fanpages, 'rSolicitudes' : solicitudes, 'rImagenes': imagenes, 'rFacturas' : facturas}
+    usuarios = fUsuarios()
+    context = {'rZonas' : zonas, 'rCategorias' : fCategorias, 'rTipos' : tipos, 'rGerentes' : gerentes, 'rFanPages' : fanpages, 'rSolicitudes' : solicitudes, 'rImagenes': imagenes, 'rFacturas' : facturas, 'rUsuarios' : usuarios}
     return render(request, 'usuarios/admin/formularios.html', context)
 
 #--- CRUD Zonas

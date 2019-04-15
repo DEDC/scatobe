@@ -1,4 +1,48 @@
 {% extends "base/base.html" %}
 
-{% block title %} Chedraui {% endblock %}
+
+
+{% block tablaDetalles %}
+    <!-- tabla 01 ---------------------------------------->
+    <table align="center" cellspacing="0">
+        <thead>
+            <tr>
+                <th width="050"><input type="checkbox"></th>
+                <th width="110">Solicitud</th>
+                <th width="130">Folio</th>
+                <th width="130">Zona</th>
+                <th width="180">Gerente</th>
+                <th width="180">Categoría</th>
+                <th width="130">Tipo</th>
+                <th width="140">Fanpage</th>
+                <th width="110">Post</th>
+                <th width="180">Opciones</th>
+            </tr>
+        </thead>
+        <tbody align="center">
+            {% for i in i|rjust:5 %}    
+                <tr>
+                    <td><input class="checkDownload" name="checkbox[{{ forloop.counter }}]" value="{{ forloop.counter }}" type="checkbox"></td>
+                    <td>10/04/19</td>
+                    <td>CH-MA-0002378{{ forloop.counter }}</td>
+                    <td>Mérida</td>
+                    <td>Jaime Solis</td>
+                    <td>MartiMiércoles</td>
+                    <td>Local</td>
+                    <td>Yucatán</td>
+                    <td>11/04/19</td>
+                    <td>
+                        <i class="far fa-image"></i>
+                        <i class="fas fa-link"></i>
+                        <i class="fas fa-download"></i>
+                        <i class="far fa-edit"></i>
+                        <i class="fas fa-trash-alt"></i>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- tabla 01 ---------------------------------------->
+    
+{% endblock tablaDetalles %}
 
