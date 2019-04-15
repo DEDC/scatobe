@@ -29,7 +29,7 @@
 
 {% block menu %}
     <div class="boton"><i class="fas fa-plus"></i>&nbsp;&nbsp;AGREGAR</div>
-    <div id="makePdf" class="boton"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;GENERAR PDF</div>
+    <div id="makePdf" class="boton" data-post="{% url 'usuarios:testAjax' %}"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;GENERAR PDF</div>
     <div class="boton"><i class="fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;DESCARGAR FACTURA</div>
     <div class="boton"><i class="far fa-comment-alt"></i>&nbsp;&nbsp;AYUDA</div>
     <div class="boton"><i class="fas fa-cog"></i>&nbsp;&nbsp;CONFIGURACIÓN</div>

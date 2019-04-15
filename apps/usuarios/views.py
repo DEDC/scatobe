@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import fGrupos, fPermisos, fUsuarios
+from django.http import JsonResponse
 
 def vLogin(request):
     if request.method == 'POST':
@@ -63,3 +64,12 @@ def vRegistroUsuarios(request):
         
 def vTestAdmin(request):
     return render(request, 'base/admin.html')
+
+def testAjax(request):
+    print('entra')
+    responseVar = JsonResponse({
+        'status': 'ok',
+        'code': 200,
+        'msg': 'Hola mundo desde ajax Django'
+    })
+    return responseVar

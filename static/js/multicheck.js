@@ -1,11 +1,12 @@
 // self executing function here
 (function () {
-  let alert = () => {
-    alert('alert')
+  let alerts = (data) => {
+    alert(data.msg)
   }
   document.getElementById('btnAlert').addEventListener('click', test)
-  document.getElementById('makePdf').addEventListener('click', () => {
-    let url = 'alguna url'
+  document.getElementById('makePdf').addEventListener('click', (e) => {
+    let that = e.target
+    let url = that.dataset.post
     let method = 'POST'
     let body = new FormData()
     let checkDownload = document.getElementsByClassName('checkDownload')
@@ -17,7 +18,6 @@
     }
     // ORDEN PARAMETROS:
     // METHOD, BODY, HEADERS, CALLBACK
-    deltaAjax(url, method, body, null, alert)
-
+    deltaAjax(url, method, body, null, alerts)
   })
 })()
