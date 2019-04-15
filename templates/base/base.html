@@ -15,6 +15,7 @@
 </head>
 <body>
 	<div class="contenedor">
+		<a href="{% url 'usuarios:formularios' %}">FORMULARIOS</a>
 		{% if 'core.can_view_myzone' in perms %}
 		Tiene
 		{% else %}

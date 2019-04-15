@@ -1,5 +1,5 @@
 from django import forms
-from .models import Categorias, FanPages, Imagenes, Zonas, Solicitudes, Tipos, Gerentes
+from .models import Categorias, FanPages, Imagenes, Facturas, Zonas, Solicitudes, Tipos, Gerentes
 
 class fSolicitudes(forms.ModelForm):
     class Meta:
@@ -41,4 +41,12 @@ class fImagenes(forms.ModelForm):
         fields = ['imagen']
         widgets = {
             'imagen' : forms.FileInput(attrs={'multiple' : ''})
+        }
+
+class fFacturas(forms.ModelForm):
+    class Meta:
+        model = Facturas
+        fields = ['factura']
+        widgets = {
+            # 'imagen' : forms.FileInput(attrs={'multiple' : ''})
         }

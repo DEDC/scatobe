@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>FORMS</title>
+</head>
+<body>
+    <h1>Zonas</h1>
+    <form action="{% url 'usuarios:rZonas' %}" method="post">
+        {% csrf_token %}
+        {{rZonas}}
+        <button type="submit">wardar</button>
+    </form>
+    <br><br>
+    <h1>Categorías</h1>
+    <form action="{% url 'usuarios:rCategorias' %}" method="post">
+        {% csrf_token %}
+        {{rCategorias}}
+        <button type="submit">wardar</button>
+    </form>
+    <br><br>
+    <h1>Tipos</h1>
+    <form action="{% url 'usuarios:rTipos' %}" method="post">
+        {% csrf_token %}
+        {{rTipos}}
+        <button type="submit">wardar</button>
+    </form>
+    <br><br>
+    <h1>Gerentes</h1>
+    <form action="{% url 'usuarios:rGerentes' %}" method="post">
+        {% csrf_token %}
+        {{rGerentes}}
+        <button type="submit">wardar</button>
+    </form>
+    <br><br>
+    <h1>Fan Pages</h1>
+    <form action="{% url 'usuarios:rFanPages' %}" method="post">
+        {% csrf_token %}
+        {{rFanPages}}
+        <button type="submit">wardar</button>
+    </form>
+    <br><br>
+    <h1>Solicitudes</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{rSolicitudes.as_p}}
+        {{rImagenes.as_p}}
+        {{rFacturas.as_p}}
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>

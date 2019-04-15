@@ -4,8 +4,8 @@ from apps.solicitudes.views import (vRegistroZonas, vEditarZonas, vEliminarZonas
                                     vRegistroCategorias, vEditarCategorias, vEliminarCategorias,
                                     vRegistroTipos, vEditarTipos, vEliminarTipos,
                                     vRegistroGerentes, vEditarGerentes, vEliminarGerentes,
-                                    vRegistroFanPages, vEditarFanPages, vEliminarFanPages,
-                                    vRegistroSolicitudes)
+                                    vRegistroFanPages, vEditarFanPages, vEliminarFanPages, vObtenerFanPagesByFK,
+                                    vRegistroSolicitudes, vFormularios)
 app_name = 'usuarios'
 
 urlpatterns = [
@@ -28,6 +28,10 @@ urlpatterns = [
     # path('admin/roles/crear'),
     # path('admin/roles/editar/<int:id>'),
     # path('admin/roles/eliminar/<int:id>'),
+    
+    #--- Formularios
+    path('admin/registros/', vFormularios, name = 'formularios'),
+    
     #--- Zonas
     path('admin/zonas/crear', vRegistroZonas, name = 'rZonas'),
     path('admin/zonas/editar/<int:id>', vEditarZonas, name = 'edZonas'),
@@ -50,4 +54,6 @@ urlpatterns = [
     path('admin/fanpages/eliminar/<int:id>', vEliminarFanPages, name = 'eFanPages'),
     #--- Solicitudes
     path('admin/solicitudes/crear', vRegistroSolicitudes, name = 'rSolicitudes'),
+    #---AJAX
+    path('admin/ajax/fp/<int:id>', vObtenerFanPagesByFK),
 ]
