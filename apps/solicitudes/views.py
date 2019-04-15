@@ -1,11 +1,23 @@
-from django.shortcuts import render, get_object_or_404
-from .forms import fZonas, fCategorias, fTipos, fFanPages, fGerentes, fImagenes, fSolicitudes
+from django.shortcuts import render, get_object_or_404, redirect
+from .forms import fZonas, fCategorias, fTipos, fFanPages, fGerentes, fImagenes, fFacturas, fSolicitudes
 from .models import Zonas, Categorias, Tipos, FanPages, Solicitudes, Gerentes, Imagenes
     
 def vTabla(request):
     solicitudes = Solicitudes.objects.all()
     context = {'solicitudes' : solicitudes}
     return render(request, 'solicitudes/tabla.html', context)
+
+def vFormularios(request):
+    zonas = fZonas()
+    categorias = fCategorias()
+    tipos = fTipos()
+    gerentes = fGerentes()
+    fanpages = fFanPages()
+    solicitudes = fSolicitudes()
+    imagenes = fImagenes()
+    facturas = fFacturas()
+    context = {'rZonas' : zonas, 'rCategorias' : fCategorias, 'rTipos' : tipos, 'rGerentes' : gerentes, 'rFanPages' : fanpages, 'rSolicitudes' : solicitudes, 'rImagenes': imagenes, 'rFacturas' : facturas}
+    return render(request, 'usuarios/admin/formularios.html', context)
 
 #--- CRUD Zonas
 def vRegistroZonas(request):
@@ -14,6 +26,7 @@ def vRegistroZonas(request):
         if zona.is_valid():
             zona.save()
             print('zona agregada')
+            return redirect('usuarios:formularios')
         else:
             print('zona no agregada')
     else:
@@ -55,6 +68,7 @@ def vRegistroCategorias(request):
         categoria = fCategorias(request.POST)
         if categoria.is_valid():
             categoria.save()
+            return redirect('usuarios:formularios')
             print('categoria agregada')
         else:
             print('categoria no agregada')
@@ -97,6 +111,7 @@ def vRegistroTipos(request):
         tipo = fTipos(request.POST)
         if tipo.is_valid():
             tipo.save()
+            return redirect('usuarios:formularios')
             print('tipo agregado')
         else:
             print('tipo no agregado')
@@ -139,6 +154,7 @@ def vRegistroFanPages(request):
         fanPage = fFanPages(request.POST)
         if fanPage.is_valid():
             fanPage.save()
+            return redirect('usuarios:formularios')
             print('fanpage agregada')
         else:
             print('fanpage no agregada')
@@ -175,12 +191,22 @@ def vObtenerFanPages():
     fanpages = FanPages.objects.all()
     return fanpages
 
+def vObtenerFanPagesByFK(id):
+    if request.is_ajax():
+        fanpages = FanPages.objects.filter(zona_exact = id)
+        print(id)
+        print(fanpages)
+        return fanpages
+    else:
+        print('salió mal')
+
 #--- CRUD Gerentes
 def vRegistroGerentes(request):
     if request.method == 'POST':
         gerente = fGerentes(request.POST)
         if gerente.is_valid():
             gerente.save()
+            return redirect('usuarios:formularios')
     else:
         gerente = fGerentes()
     context = {'fGerentes' : gerente}
@@ -221,6 +247,7 @@ def vRegistroSolicitudes(request):
             for img in request.FILES.getlist('imagen'):
                 Imagenes.objects.create(imagen = img, nombre = img.name, solicitud = solicitud.save())
             print('solicitud agregada')
+            return redirect('usuarios:formularios')
         else:
             print('solicitud no agregada')
     else:
@@ -228,6 +255,8 @@ def vRegistroSolicitudes(request):
         imagen = fImagenes()
     context = {'rSolicitudes' : solicitud, 'rImagenes' : imagen}
     return render(request, 'solicitudes/registroSolicitud.html', context)
+
+
 
 # def vEditarSolicitudes(request, id):
 #     solicitud = get_object_or_404(Solicitudes, pk = id)
