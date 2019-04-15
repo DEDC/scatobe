@@ -86,14 +86,12 @@
                 alert('test')
             });
             document.getElementById('makePdf').addEventListener('click', () => {
-                
                 let checkDownload = document.getElementsByClassName('checkDownload')
                 for (let item of checkDownload) {
                     if (item.checked) {
                         console.log('tiene checado');
                     }
                 }
-                
                 alert('tatan, creaste un pdf')
             });
         })();
