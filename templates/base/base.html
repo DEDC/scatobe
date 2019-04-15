@@ -1,5 +1,56 @@
-{% block rZonas %}
-    <form action="" method="post">
-        {{rZonas}}
-    </form>
-{% endblock %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es_mx">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i" rel="stylesheet">
+    <link rel="stylesheet" href="{% static '/css/custom.css' %}">
+    <link rel="stylesheet" href="{% static '/css/all.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static '/css/materialize/materialize.min.css' %}"> {% endcomment %}
+    <link rel="stylesheet" href="{% static '/css/uikit/uikit.min.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+	<div class="contenedor">
+        {% block body %}{% endblock%}
+		<div class="header">
+			<div class="logotipo"></div>
+			<div class="nombre">
+				<div class="headline">Publicaciones en Facebook</div>
+				<div class="subhead">sistema de control y registro</div>
+			</div>
+			<div class="factura">
+				<div class="mes">
+				<div class="referencia">mes de referencia <i class="fas fa-chevron-circle-down" title="Haga click para seleccionar un mes diferente"></i></div>
+				<div class="ciclo">
+                    {% block mesReferencia %}{% endblock mesReferencia %}
+                </div>
+				</div>
+				<div class="total">
+					<div class="totalhead">Publicaciones Totales</div>
+					<div class="numerohead">
+                        {% block publicacionesTotales %}{% endblock publicacionesTotales %}
+                    </div>
+				</div>
+			</div>
+		</div>
+		<div class="zonales">
+			<div class="zonalbox">
+				{% block zonalbox %}{% endblock zonalbox %}
+			</div>
+		</div>
+		<div class="actionbar">
+			<div class="buscador"><i class="fas fa-search"></i><input type="text" placeholder="¿Desea realizar una búsqueda?" onfocus="this.placeholder=''" onblur="this.placeholder='¿Desea realizar una búsqueda?'" name="search"></div>
+			<div class="menu">
+				{% block menu %}{% endblock menu %}
+			</div>
+		</div>
+		<div class="detallado">
+            {% block tablaDetalles %}{% endblock tablaDetalles %}
+		</div>
+	</div>
+    {% block javascript %}{% endblock %}
+</body>
+</html>
