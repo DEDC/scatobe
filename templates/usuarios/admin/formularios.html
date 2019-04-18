@@ -4,58 +4,156 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>FORMS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <title>Administrador | Formularios</title>
 </head>
 <body>
-    <h1>Zonas</h1>
-    <form action="{% url 'usuarios:rZonas' %}" method="post">
-        {% csrf_token %}
-        {{rZonas}}
-        <button type="submit">wardar</button>
-    </form>
-    <br><br>
-    <h1>Categorías</h1>
-    <form action="{% url 'usuarios:rCategorias' %}" method="post">
-        {% csrf_token %}
-        {{rCategorias}}
-        <button type="submit">wardar</button>
-    </form>
-    <br><br>
-    <h1>Tipos</h1>
-    <form action="{% url 'usuarios:rTipos' %}" method="post">
-        {% csrf_token %}
-        {{rTipos}}
-        <button type="submit">wardar</button>
-    </form>
-    <br><br>
-    <h1>Gerentes</h1>
-    <form action="{% url 'usuarios:rGerentes' %}" method="post">
-        {% csrf_token %}
-        {{rGerentes}}
-        <button type="submit">wardar</button>
-    </form>
-    <br><br>
-    <h1>Fan Pages</h1>
-    <form action="{% url 'usuarios:rFanPages' %}" method="post">
-        {% csrf_token %}
-        {{rFanPages}}
-        <button type="submit">wardar</button>
-    </form>
-    <br><br>
-    <h1>Usuarios</h1>
-    <form action="{% url 'usuarios:rUsuarios' %}" method="post">
-        {% csrf_token %}
-        {{rUsuarios.as_p}}
-        <button type="submit">wardar</button>
-    </form>
-    <br><br>
-    <h1>Solicitudes</h1>
-    <form action="{% url 'usuarios:rSolicitudes' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{rSolicitudes.as_p}}
-        {{rImagenes.as_p}}
-        {{rFacturas.as_p}}
-        <button type="submit">Guardar</button>
-    </form>
+    <header>
+        <ul id="slide-out" class="sidenav">
+            <li><div class="user-view">
+                <b>Administración</b>
+            </li>
+            <li><div class="divider"></div></li>
+            <li><a href="#!">Zonas</a></li>
+            <li><a href="#!">Categorías</a></li>
+            <li><a href="#!">Tipos</a></li>
+            <li><a href="#!">Gerentes</a></li>
+            <li><a href="#!">FanPages</a></li>
+            <li><a href="#!">Gerentes</a></li>
+            <li><a href="#!">Usuarios</a></li>
+            <li><a href="#!">Roles y permisos</a></li>
+            <li><div class="divider"></div></li>
+            <li><a href="{% url 'usuarios:pAdmin' %}">Regresar a principal</a></li>
+        </ul>
+    </header>
+    <main>  
+        <div class="container">
+            <div class="row">
+                <a href="#" data-target="slide-out" class="btn sidenav-trigger"><i class="material-icons"></i>Menú</a>
+                <h1>Facturas del mes</h1>
+                <form action="{% url 'usuarios:rFacturas' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{rFacturas.as_p}}
+                    <p>
+                        <select name="factura_mes" required="" id="id_factura_mes">  
+                            <option value="1" selected>Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                    </p>
+                    <input type="hidden" name="factura_anio">
+                    <p id="anio_actual">
+                        Año actual :
+                    </p>
+                    <button type="submit">Guardar</button>
+                </form>
+                <br><br>
+            </div>
+            <div class="row">
+                <a href="#" data-target="slide-out" class="btn sidenav-trigger"><i class="material-icons"></i>Menú</a>
+                <h1>Zonas</h1>
+                <form action="{% url 'usuarios:rZonas' %}" method="post">
+                    {% csrf_token %}
+                    {{rZonas}}
+                    <button type="submit">Guardar</button>
+                </form>
+                <br><br>
+            </div>
+            <div class="row">
+                <h1>Categorías</h1>
+                <form action="{% url 'usuarios:rCategorias' %}" method="post">
+                    {% csrf_token %}
+                    {{rCategorias}}
+                    <button type="submit">Guardar</button>
+                </form>
+                <br><br>
+            </div>
+            <div class="row">
+                <h1>Tipos</h1>
+                <form action="{% url 'usuarios:rTipos' %}" method="post">
+                    {% csrf_token %}
+                    {{rTipos}}
+                    <button type="submit">Guardar</button>
+                </form>
+                <br><br>
+            </div>
+            <div class="row">
+                <h1>Gerentes</h1>
+                <form action="{% url 'usuarios:rGerentes' %}" method="post">
+                    {% csrf_token %}
+                    {{rGerentes}}
+                    <button type="submit">Guardar</button>
+                </form>
+                <br><br>
+            </div>
+            <div class="row">
+                <h1>Fan Pages</h1>
+                <form action="{% url 'usuarios:rFanPages' %}" method="post">
+                    {% csrf_token %}
+                    {{rFanPages}}
+                    <button type="submit">Guardar</button>
+                </form>
+                <br><br>
+            </div>
+            <div class="row">
+                <h1>Roles</h1>
+                <form action="{% url 'usuarios:rRoles' %}" method="post">
+                    {% csrf_token %}
+                    {{rRoles}}
+                    <button type="submit">Guardar</button>
+                </form>
+                <br><br>
+            </div>
+            <div class="row">
+                <h1>Permisos</h1>
+                <form action="{% url 'usuarios:rPermisos' %}" method="post">
+                    {% csrf_token %}
+                    {{rPermisos}}
+                    <button type="submit">Guardar</button>
+                </form>
+                <br><br>
+            </div>
+            <div class="row">
+                <h1>Usuarios</h1>
+                <form action="{% url 'usuarios:rUsuarios' %}" method="post">
+                    {% csrf_token %}
+                    {{rUsuarios.as_p}}
+                    <button type="submit">Guardar</button>
+                </form>
+                <br><br>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var date = new Date();
+            document.querySelector('#anio_actual').textContent = 'Año actual : ' + date.getFullYear();
+            document.querySelector('input[name = "factura_anio"]').value = date.getFullYear();
+            var elems = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenav.init(elems);
+            var select_zonas = document.querySelectorAll('select[name="zona"]');
+            var instances = M.FormSelect.init(select_zonas);
+            var select_zonas_multi = document.querySelectorAll('select[name="zonas"]');
+            var instances = M.FormSelect.init(select_zonas_multi);
+            var select_rol = document.querySelectorAll('select[name="rol"]');
+            var instances = M.FormSelect.init(select_rol);
+            var select_permisos_multi = document.querySelectorAll('select[name="permisos"]');
+            var instances = M.FormSelect.init(select_permisos_multi);
+            var select_factura_mes = document.querySelectorAll('select[name="factura_mes"]');
+            var instances = M.FormSelect.init(select_factura_mes);
+            var select_factura_anio = document.querySelectorAll('select[name="factura_anio"]');
+            var instances = M.FormSelect.init(select_factura_anio);
+        });
+    </script>
 </body>
 </html>

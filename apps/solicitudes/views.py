@@ -1,7 +1,9 @@
+from django.core import serializers
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import fZonas, fCategorias, fTipos, fFanPages, fGerentes, fImagenes, fFacturas, fSolicitudes
-from .models import Zonas, Categorias, Tipos, FanPages, Solicitudes, Gerentes, Imagenes
-from apps.usuarios.forms import fUsuarios
+from .forms import fZonas, fCategorias, fTipos, fFanPages, fGerentes, fImagenes, fFacturas, fMateriales, fSolicitudes
+from .models import Zonas, Categorias, Tipos, FanPages, Solicitudes, Gerentes, Imagenes, Materiales
+from apps.usuarios.forms import fUsuarios, fRoles, fPermisos
 
 def vTabla(request):
     solicitudes = Solicitudes.objects.all()
@@ -18,8 +20,28 @@ def vFormularios(request):
     imagenes = fImagenes()
     facturas = fFacturas()
     usuarios = fUsuarios()
-    context = {'rZonas' : zonas, 'rCategorias' : fCategorias, 'rTipos' : tipos, 'rGerentes' : gerentes, 'rFanPages' : fanpages, 'rSolicitudes' : solicitudes, 'rImagenes': imagenes, 'rFacturas' : facturas, 'rUsuarios' : usuarios}
+    roles = fRoles()
+    permisos = fPermisos()
+    materiales = fMateriales()
+    context = {'rZonas' : zonas, 'rCategorias' : fCategorias, 'rTipos' : tipos, 'rGerentes' : gerentes, 'rFanPages' : fanpages, 'rSolicitudes' : solicitudes, 'rImagenes': imagenes, 'rFacturas' : facturas, 'rMateriales' : materiales,'rUsuarios' : usuarios, 'rRoles' : roles, 'rPermisos' : permisos}
     return render(request, 'usuarios/admin/formularios.html', context)
+
+#--- Facturas
+def vRegistroFacturas(request):
+    if request.method == 'POST':
+        factura = fFacturas(request.POST, request.FILES)
+        if factura.is_valid():
+            f =  factura.save(commit = False)
+            f.mes = request.POST.get('factura_mes')
+            f.anio = request.POST.get('factura_anio')
+            f.save()
+            print('Factura agregada')
+            return redirect('usuarios:formularios')
+        else:
+            print('Factura no agregada')
+            return redirect('usuarios:formularios')
+    else:
+        return redirect('usuarios:formularios')
 
 #--- CRUD Zonas
 def vRegistroZonas(request):
@@ -193,12 +215,11 @@ def vObtenerFanPages():
     fanpages = FanPages.objects.all()
     return fanpages
 
-def vObtenerFanPagesByFK(id):
+def vObtenerFanPagesByFK(request):
     if request.is_ajax():
-        fanpages = FanPages.objects.filter(zona_exact = id)
-        print(id)
-        print(fanpages)
-        return fanpages
+        id = request.POST.get('id_zona')
+        fanpages = serializers.serialize('json', FanPages.objects.filter(zona__exact = id))
+        return HttpResponse(fanpages, content_type = 'application/json')
     else:
         print('salió mal')
 
@@ -239,17 +260,28 @@ def vObtenerGerentes():
     gerentes = Gerentes.objects.all()
     return gerentes
 
+def vObtenerGerentesByFK(request):
+    if request.is_ajax():
+        id = request.POST.get('id_zona')
+        gerentes = serializers.serialize('json', Gerentes.objects.filter(zona__exact = id))
+        return HttpResponse(gerentes, content_type = 'application/json')
+    else:
+        print('salió mal')
+
 #--- CRUD Solicitudes
 def vRegistroSolicitudes(request):
     if request.method == 'POST':
         imagen = fImagenes(request.POST, request.FILES)
+        material = fMateriales(request.POST, request.FILES)
         solicitud = fSolicitudes(request.POST)
         if solicitud.is_valid() and imagen.is_valid():
             solicitud.save()
             for img in request.FILES.getlist('imagen'):
                 Imagenes.objects.create(imagen = img, nombre = img.name, solicitud = solicitud.save())
+            for material in request.FILES.getlist('material'):
+                Materiales.objects.create(material = material, nombre = material.name, solicitud = solicitud.save())
             print('solicitud agregada')
-            return redirect('usuarios:formularios')
+            return redirect('usuarios:pAdmin')
         else:
             print('solicitud no agregada')
     else:
@@ -257,8 +289,6 @@ def vRegistroSolicitudes(request):
         imagen = fImagenes()
     context = {'rSolicitudes' : solicitud, 'rImagenes' : imagen}
     return render(request, 'solicitudes/registroSolicitud.html', context)
-
-
 
 # def vEditarSolicitudes(request, id):
 #     solicitud = get_object_or_404(Solicitudes, pk = id)

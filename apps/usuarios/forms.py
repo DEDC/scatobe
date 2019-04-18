@@ -1,23 +1,18 @@
 from django import forms
-from django.contrib.auth.models import User, Group, Permission
+from .models import User, Permisos, Roles
 
-class fGrupos(forms.ModelForm):
+class fRoles(forms.ModelForm):
     class Meta:
-        model = Group
+        model = Roles
         fields = '__all__'
 
 class fPermisos(forms.ModelForm):
     class Meta:
-        model = Permission
+        model = Permisos
         fields = '__all__'
     
 class fUsuarios(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'username', 'password', 'groups']
-        
-    # def __init__(self, *args, **kwargs):
-    #     super(fUsuarios, self).__init__(*args, **kwargs)
-    #     self.fields["groups"].widget = forms.Select()
-    #     self.fields["groups"].queryset = Group.objects.all()
+        fields = ['first_name', 'last_name', 'email', 'username', 'password', 'rol', 'zonas']
 

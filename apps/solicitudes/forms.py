@@ -1,5 +1,5 @@
 from django import forms
-from .models import Categorias, FanPages, Imagenes, Facturas, Zonas, Solicitudes, Tipos, Gerentes
+from .models import Categorias, FanPages, Imagenes, Facturas, Zonas, Solicitudes, Tipos, Gerentes, Materiales
 
 class fSolicitudes(forms.ModelForm):
     class Meta:
@@ -48,5 +48,15 @@ class fFacturas(forms.ModelForm):
         model = Facturas
         fields = ['factura']
         widgets = {
-            # 'imagen' : forms.FileInput(attrs={'multiple' : ''})
+            'imagen' : forms.FileInput(attrs={'multiple' : ''}),
+            'mes' : forms.FileInput(attrs={'type' : 'number'}),
+            'anio' : forms.FileInput(attrs={'type' : 'number'})
+        }
+
+class fMateriales(forms.ModelForm):
+    class Meta:
+        model = Materiales
+        fields = ['material']
+        widgets = {
+            'material' : forms.FileInput(attrs={'multiple' : ''})
         }
