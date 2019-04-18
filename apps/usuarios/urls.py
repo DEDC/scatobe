@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import vLogin, vRegistroUsuarios, vPrincipalAdmin, vPrincipalCH, vTestAdmin, testAjax
+from .views import vLogin, vRegistroUsuarios, vPrincipalAdmin, vPrincipalCH, vTestAdmin, testAjax, testDownload
 from apps.solicitudes.views import (vRegistroZonas, vEditarZonas, vEliminarZonas,
                                     vRegistroCategorias, vEditarCategorias, vEliminarCategorias,
                                     vRegistroTipos, vEditarTipos, vEliminarTipos,
@@ -15,6 +15,7 @@ urlpatterns = [
     # path('admin/nvo-usuario', vUsuarios, name = 'registroUsuarios'),
     # path('home/', vUsuarios, name = 'home'),
     path('testAdmin/', vTestAdmin, name = 'testAdmin'),
+    path('testDownload/', testDownload, name = 'testDownload'),
     path('testAjaxPost/', testAjax, name = 'testAjax'),
     
     path('admin/', vPrincipalAdmin, name = 'pAdmin'),

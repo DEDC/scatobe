@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="{% static '/css/all.css' %}">
     {% comment %} <link rel="stylesheet" href="{% static '/css/materialize/materialize.min.css' %}"> {% endcomment %}
     <link rel="stylesheet" href="{% static '/css/uikit/uikit.min.css' %}">
+    
+    <link rel="stylesheet" type="text/css" href="{% static '/css/datatables.min.css' %}"/>
+ 
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -59,6 +62,9 @@
             {% block tablaDetalles %}{% endblock tablaDetalles %}
 		</div>
 	</div>
+    {% comment %} JAVASCRIPT {% endcomment %}
+    <script type="text/javascript" src="{% static '/js/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/jquery-3.3.1.min.js' %}"></script>
     {% block javascript %}{% endblock %}
 </body>
 </html>
