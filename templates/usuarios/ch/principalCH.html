@@ -34,7 +34,7 @@
 {% endblock zonalbox %}
 
 {% block menu %}
-    <div class="boton"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;GENERAR PDF</div>
+    <div class="boton" data-post="{% url 'usuarios:descarga_pdf' %}" id="makePdf"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;GENERAR PDF</div>
     <div class="boton" id="download-factura"><i class="fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;DESCARGAR FACTURA</div>
     <div class="boton"><i class="far fa-comment-alt"></i>&nbsp;&nbsp;AYUDA</div>
     <!-- <div class="boton"><i class="fas fa-cog"></i>&nbsp;&nbsp;CONFIGURACIÓN</div> -->
@@ -46,7 +46,7 @@
     <table align="center" cellspacing="0" id="ch">
         <thead>
             <tr>
-                <th width="050"><input type="checkbox"></th>
+                <th width="050"><input id="checkAll" type="checkbox"></th>
                 <th width="110">Solicitud</th>
                 <th width="130">Folio</th>
                 <th width="130">Zona</th>
@@ -62,7 +62,7 @@
             {% for zona in user.zonas.all %}
                 {% for solicitud in zona.soli_zona.all %}
                 <tr>
-                        <td><input type="checkbox"></td>
+                        <td><input class="checkDownload" type="checkbox" name="checkbox" value="{{solicitud.id}}"></td>
                         <td>{{ solicitud.fecha|date:"SHORT_DATE_FORMAT" }}</td>
                         <td>{{solicitud.folio}}</td>
                         <td>{{solicitud.zona}}</td>
