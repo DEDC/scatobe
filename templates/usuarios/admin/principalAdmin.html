@@ -85,9 +85,9 @@ ABRIL
 <div class="boton" uk-toggle="target: #modal-example"><i class="fas fa-plus"></i>&nbsp;&nbsp;AGREGAR</div>
 <div class="boton" data-post="{% url 'usuarios:descarga_pdf' %}" id="makePdf"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;GENERAR PDF</div>
 <div class="boton" id="download-factura"><i class="fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;DESCARGAR FACTURA</div>
-<div class="boton"><a href="{% url 'usuarios:formularios' %}"><i class="fas fa-cog"></i>&nbsp;&nbsp;CONFIGURACIONES</a>
+<div class="boton"><a href="{% url 'usuarios:formularios' %}" style="color:white;"><i class="fas fa-cog"></i>&nbsp;&nbsp;CONFIGURACIONES</a>
 </div>
-<div class="boton"><a href="{% url 'usuarios:logout' %}"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;SALIR</a></div>
+<div class="boton"><a href="{% url 'usuarios:logout' %}" style="color:white;"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;SALIR</a></div>
 {% endblock menu %}
 
 {% block tablaDetalles %}
