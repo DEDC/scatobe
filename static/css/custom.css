@@ -1,0 +1,364 @@
+@charset "UTF-8";
+/* Facebook SCA */
+
+/* ====== GENERAL ============================================ */
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	background: #ECEFF4 url("/static/img/bg.png") top center repeat-x;
+	font-family: 'Source Sans Pro', sans-serif;
+	}
+
+/* ====== CONTENEDOR PRINCIPAL =============================== */
+.contenedor {
+	margin: 0px auto;
+	padding: 0px;
+	width: 1440px;
+	overflow: hidden;
+	box-sizing: border-box;
+	}
+
+/* ====== ENCABEZADO ========================================= */
+.header {
+	margin: 50px 0px 0px;
+	padding: 0px;
+	width: 1440px;
+	height: 226px;
+	background: #F4F5F9;
+	}
+
+.logotipo {
+	margin: 40px 40px 0px 80px;
+	padding: 0px;
+	width: 160px;
+	height: 160px;
+	background: url("/static/img/chedraui.png");
+	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+ 	-o-background-size: cover;
+  	background-size: cover;
+	float: left;
+	}
+
+.nombre {
+	margin: 40px 40px 0px 40px;
+	padding: 0px;
+	width: 500px;
+	height: 160px;
+	float: left;
+	}
+
+.factura {
+	margin: 85px 40px 0px 40px;
+	padding: 0px;
+	width: 458px;
+	height: 100px;
+	float: right;
+	background: #FFFFFF;
+	border: 1px solid #E1E9EB;
+	border-radius: 5px;
+	}
+
+.mes {
+	margin: 15px 0px;
+	padding: 5px 0px 0px 0px;
+	width: 229px;
+	height: 70px;
+	float: left;
+	text-align: center;
+	}
+
+.total {
+	margin: 15px 0px;
+	padding: 5px 0px 0px 0px;
+	width: 228px;
+	height: 70px;
+	float: left;
+	border-left: 1px solid #E1E9EB;
+	} 
+
+/* ====== TOTALES POR ZONA ====================================*/
+.zonales {
+	margin: 0px;
+	padding: 0px 40px;
+	width: 1360px;
+	height: 120px;
+	background: #F4F4F9;
+	}
+
+.zonalbox {
+	margin: 0px;
+	padding: 0px;
+	width: 1358px;
+	height: 100px;
+	background: #FFFFFF;
+	border: 1px solid #e1e9eb;
+	border-radius: 5px;
+	}
+
+.zonal1 {
+	margin: 25px 0px;
+	padding: 0px 10px 0px 35px;
+	width: 180px;
+	height: 50px;
+	background: #FFFFFF;
+	border-right: 1px solid #e1e9eb;
+	float: left;
+	font-weight: 600;
+	color: #02457A;
+	}
+
+.zonal2 {
+	margin: 25px 0px;
+	padding: 0px 10px 0px 35px;
+	width: 180px;
+	height: 50px;
+	background: #FFFFFF;
+	float: left;
+	font-weight: 600;
+	color: #02457A;
+	}
+
+/* ====== BARRA DE ACCIONES ================================== */
+.actionbar {
+	margin: 0px;
+	padding: 10px 40px 30px 40px;
+	width: 1360px;
+	height: 40px;
+	background: #F4F5F9;
+	}
+
+.buscador {
+	margin: 0px;
+	padding: 0px;
+	width: 500px;
+	height: 40px;
+	float: left;
+	}
+
+.buscador input {
+	width: 450px;
+	height: 35px;
+	outline: 0px;
+	font-size: 15px;
+	text-indent: 10px;
+	}
+
+.menu {
+	margin: 0px;
+	padding: 0px;
+	width: 824px;
+	height: 40px;
+	float: right;
+	}
+
+.boton {
+	margin: 5px 0px 0px 10px;
+	padding: 5px 10px;
+	background: #32a9f8;
+	display: inline-block;
+	font-size: 15px;
+	font-weight: 600;
+	color: #FFFFFF;
+	border: 1px solid #F4F5F9;
+	border-radius: 5px;
+	}
+
+.boton:hover {
+	background: #02457A;
+	color: #FFFFFF;
+	border: 1px solid #02457A;
+	cursor: pointer;
+	}
+
+/* ====== DETALLADO ========================================== */
+.detallado {
+	margin: 0px;
+	padding: 0px 0px 60px 0px;
+	width: 1440px;
+	background: #F4F5F9;
+	}
+
+.invoice {
+	margin: 0px;
+	padding: 40px 0px;
+	width: 1440px;
+	background: #FFFFFF;
+	}
+
+table tr th {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 16px;
+	font-weight: 500;
+	color: #FFFFFF;
+	height: 50px;
+	background: #ee7c22;
+	cursor: pointer;
+	}
+
+table tr td {
+	height:  50px;
+	border-bottom: 1px solid #97CAD8;
+	}
+
+tbody tr:hover { background: #D6E8EE; }
+
+/* ====== TITULOS COMPLETOS ================================== */
+.headline {
+	margin: 45px 0px 0px 0px;
+	padding: 0px;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 40px;
+	font-weight: 400;
+	color: #02457A;
+	letter-spacing: -2px;
+	}
+
+.subhead {
+	margin: 0px;
+	padding: 0px;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 25px;
+	font-weight: 400;
+	color: #838383;
+	letter-spacing: -1px;
+	}
+
+.referencia {
+	margin: 0;
+	padding: 0px 0px 10px 0px;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 15px;
+	font-weight: 500;
+	color: #1F1F1F;
+	}
+
+.ciclo {
+	margin: 0px;
+	padding: 0px;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 18px;
+	font-weight: 600;
+	color: #3C9445;
+	}
+
+.totalhead {
+	margin: 0px;
+	padding: 0px;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 15px;
+	font-weight: 500;
+	text-align: center;
+	}
+
+.numerohead {
+	margin: 0px;
+	padding: 0px;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 40px;
+	font-weight: 700;
+	color: #C51105;
+	text-align: center;
+	}
+
+.numerozona {
+	margin: 5px 0px 0px 0px;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 30px;
+	font-weight: 700;
+	color: #b6bcc9;
+	text-indent: 5px;
+	}
+
+.numerozona:hover {
+	color: #ee7c22;
+	cursor: pointer;
+	}
+
+/* ====== FONTAWESOME ======================================== */
+.fa-chevron-circle-down {
+	padding: 0px 5px;
+	color:  #E1E9EB;
+	font-size: 20px;
+	}
+
+.fa-chevron-circle-down:hover {
+	color: #222222;
+	cursor: pointer;
+	}
+
+.fa-search {
+	padding: 0px 10px 5px 0px;
+	font-size: 30px;
+	color: #b6bcc9;
+	}
+
+.fa-image {
+	padding: 5px;
+	font-size: 20px;
+	color: #ffffff;
+	background: #b6bcc9;
+	border-radius: 5px;
+	}
+
+.fa-image:hover {
+	color: #FFFFFF;
+	background: #02457A;
+}
+
+
+.fa-link {
+	padding: 5px;
+	font-size: 20px;
+	color: #ffffff;
+	background: #b6bcc9;
+	border-radius: 5px;
+	}
+
+.fa-link:hover {
+	color: #FFFFFF;
+	background: #02457A;
+}
+
+.fa-download {
+	padding: 5px;
+	font-size: 20px;
+	color: #ffffff;
+	background: #b6bcc9;
+	border-radius: 5px;
+	}
+
+.fa-download:hover {
+	color: #FFFFFF;
+	background: #02457A;
+}
+
+
+.fa-edit {
+	padding: 5px;
+	font-size: 20px;
+	color: #ffffff;
+	background: #b6bcc9;
+	border-radius: 5px;
+	}
+
+.fa-edit:hover {
+	color: #FFFFFF;
+	background: #02457A;
+}
+
+.fa-trash-alt {
+	padding: 5px;
+	font-size: 20px;
+	color: #ffffff;
+	background: #b6bcc9;
+	border-radius: 5px;
+	}
+
+.fa-trash-alt:hover {
+	color: #FFFFFF;
+	background: #02457A;
+}
+
+/* =========================================================== */

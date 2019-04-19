@@ -1,31 +1,62 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import fGrupos, fPermisos, fUsuarios
+from .forms import fRoles, fPermisos, fUsuarios
+from apps.solicitudes.models import Solicitudes, Zonas
+from apps.solicitudes.forms import fSolicitudes, fImagenes, fMateriales
+from .models import User
+
+def vLogout(request):
+    logout(request)
+    return redirect('usuarios:login')
 
 def vLogin(request):
+    vLogout(request)
     if request.method == 'POST':
         usuario = request.POST.get('user')
         contrasena = request.POST.get('pass')
         autenticado = authenticate(request, username = usuario, password = contrasena)
         if autenticado:
             login(request, autenticado)
+            if request.user.rol.codename == 'admin':
+                return redirect('usuarios:pAdmin')
+            else:
+                return redirect('usuarios:pCH')
             messages.success(request, 'Bienvenido')
-            return redirect('usuarios:registroUsuarios')
         else:
             messages.error(request, 'Usuario o contraseña inválidas. Intente de nuevo')
             return redirect ('usuarios:login')
     return render(request, 'usuarios/login.html')
 
-def vGrupos(request):
+def vPrincipalAdmin(request):
+    solicitudes = Solicitudes.objects.all()
+    zonas = Zonas.objects.all()
+    fsolicitudes = fSolicitudes()
+    imagenes = fImagenes()
+    materiales = fMateriales()
+    context = {'solicitudes' : solicitudes, 'zonas' : zonas, 'rSolicitudes' : fsolicitudes, 'rImagenes' : imagenes, 'rMateriales' : materiales}
+    return render(request, 'usuarios/admin/principalAdmin.html', context)
+
+def vPrincipalCH(request):
+    zona = request.user.zonas.all()
+    print(zona[0].soli_zona.all())
+    # usuario = User.objects.all()
+    # print(usuario[1].zonas.all())
+    # # TRAER LAS ZONAS DE LOS USUARIOS
+    # solicitudes = Solicitudes.objects.all()
+    # context = {'solicitudes' : solicitudes, 'usuario' : usuario}
+    return render(request, 'usuarios/ch/principalCH.html')
+
+def vRoles(request):
     if request.method == 'POST':
-        grupos = fGrupos(request.POST)
-        print(grupos)
-        if grupos.is_valid():
-            grupos.save()
+        roles = fRoles(request.POST)
+        if roles.is_valid():
+            print('es valido weee')
+            roles.save()
+            return redirect('usuarios:formularios')
     else:
-        grupos = fGrupos()
-    context = {'fGrupos' : grupos}
+        roles = fRoles()
+    context = {'fRoles' : roles}
     return render(request, 'usuarios/registroUsu.html', context)
 
 def vPermisos(request):
@@ -34,17 +65,21 @@ def vPermisos(request):
         print(permiso)
         if permiso.is_valid():
             permiso.save()
+            return redirect('usuarios:formularios')
     else:
         permiso = fPermisos()
     context = {'fPermisos' : permiso}
     return render(request, 'usuarios/registroUsu.html', context)
 
-def vUsuarios(request):
+def vRegistroUsuarios(request):
     if request.method == 'POST':
         usuario = fUsuarios(request.POST)
         if usuario.is_valid():
-            if request.POST.__contains__('groups'):
-                usuario.save()
+            if request.POST.__contains__('rol'):
+                user = usuario.save(commit = False)
+                user.set_password(user.password)
+                user.save()
+                usuario.save_m2m()
             else:
                 print('you need to choice a group')
     else:
@@ -52,3 +87,14 @@ def vUsuarios(request):
     context = {'fUsuarios' : usuario}
     return render(request, 'usuarios/admin/registroUsuarios.html', context)
         
+def vTestAdmin(request):
+    return render(request, 'base/admin.html')
+
+def testAjax(request):
+    print('entra')
+    responseVar = JsonResponse({
+        'status': 'ok',
+        'code': 200,
+        'msg': 'Hola mundo desde ajax Django'
+    })
+    return responseVar
