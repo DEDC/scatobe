@@ -1,4 +1,123 @@
 {% extends "base/base.html" %}
 
-{% block title %} Chedraui {% endblock %}
+<!-- Título -->
+{% block title %}
+    {% if user.rol.codename == 'ch_gral' %}
+        Chedraui general
+    {% elif user.rol.codename == 'ch_zona' %}
+        Chedraui zona  
+    {% endif %}
+{% endblock title %}
 
+{% block body %}
+<form action="{% url 'usuarios:descarga_factura' %}" method="post" id="f_factura" target="_blank" >
+    {% csrf_token %}
+    <input type="hidden" name="f_anio">
+    <input type="hidden" name="f_mes">
+</form>
+{% endblock %}
+
+{% block mesReferencia %}
+    ABRIL
+{% endblock mesReferencia %}
+
+{% block publicacionesTotales %}
+    {% for zona in user.zonas.all %}
+        {{zona.soli_zona.count}}
+    {% endfor %}    
+{% endblock publicacionesTotales %}
+
+{% block zonalbox %}
+    {% for zona in user.zonas.all %}
+        <div class="zonal1">{{zona}} <div class="numerozona"><i class="fas fa-caret-right"></i> {{zona.soli_zona.count}}</div></div>
+    {% endfor %}
+{% endblock zonalbox %}
+
+{% block menu %}
+    <div class="boton"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;GENERAR PDF</div>
+    <div class="boton" id="download-factura"><i class="fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;DESCARGAR FACTURA</div>
+    <div class="boton"><i class="far fa-comment-alt"></i>&nbsp;&nbsp;AYUDA</div>
+    <!-- <div class="boton"><i class="fas fa-cog"></i>&nbsp;&nbsp;CONFIGURACIÓN</div> -->
+    <div class="boton"><a href="{% url 'usuarios:logout' %}"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;SALIR</a></div>
+{% endblock menu %}
+
+{% block tablaDetalles %}
+    <!-- tabla 01 ---------------------------------------->
+    <table align="center" cellspacing="0" id="ch">
+        <thead>
+            <tr>
+                <th width="050"><input type="checkbox"></th>
+                <th width="110">Solicitud</th>
+                <th width="130">Folio</th>
+                <th width="130">Zona</th>
+                <th width="180">Gerente</th>
+                <th width="180">Categoría</th>
+                <th width="130">Tipo</th>
+                <th width="140">Fanpage</th>
+                <th width="110">Post</th>
+                <th width="200">Opciones</th>
+            </tr>
+        </thead>
+        <tbody align="center">
+            {% for zona in user.zonas.all %}
+                {% for solicitud in zona.soli_zona.all %}
+                <tr>
+                        <td><input type="checkbox"></td>
+                        <td>{{ solicitud.fecha|date:"SHORT_DATE_FORMAT" }}</td>
+                        <td>{{solicitud.folio}}</td>
+                        <td>{{solicitud.zona}}</td>
+                        <td>{{solicitud.gerente}}</td>
+                        <td>{{solicitud.categoria}}</td>
+                        <td>{{solicitud.tipo}}</td>
+                        <td>{{solicitud.fanPage}}</td>
+                        <td>{{ solicitud.post|date:"SHORT_DATE_FORMAT" }}</td>
+                        <td>
+                            <div uk-lightbox="animation: scale">
+                            {% for imagen in solicitud.imagenes_set.all %}
+                                <a class="" href="/static/images/{{imagen.imagen}}" data-caption="{{imagen.nombre}}"></a>
+                            {% endfor %}
+                            </div>
+                            <a href="#" class="open-lightbox"><i class="far fa-image"></i></a>
+                            <a href="{{solicitud.link}}" title="" target="_blank"><i class="fas fa-link"></i></a>
+                            <a href="{% url 'usuarios:descarga_multi' solicitud.id %}" title="" target="_blank"><i class="fas fa-download"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- tabla 01 ---------------------------------------->
+    
+{% endblock tablaDetalles %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script>
+        // self executing function here
+        (function() {
+            var date = new Date();
+            $('input[name="f_mes"]').val(date.getMonth()+1);
+            $('input[name="f_anio"]').val(date.getFullYear());
+            $('#download-factura').on('click', function(){
+                $('#f_factura').submit();
+            });
+            $('#ch').DataTable({
+                "lengthChange": true,
+                "lengthMenu": [[5, 10, -1], [5, 10, "Todas"]],
+                "info": false,
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_",
+                    "paginate": {
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    "zeroRecords": "Sin resultados",
+                    "search": "Filtrar :"
+                }
+            });
+            // document.getElementById('btnAlert').addEventListener('click', () => {
+            //     alert('test');
+            // });
+        })();
+    </script>
+{% endblock javascript %}
