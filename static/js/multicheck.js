@@ -66,15 +66,10 @@
     // deltaAjax(url, method, body, null, alerts)
   })
   document.getElementById('checkAll').addEventListener('click', (e) => {
-    let that = e.target
-    let checkDownload = document.getElementsByClassName('checkDownload')
-    // let formData = new FormData()
-    for (let item of checkDownload) {
-      if (that.checked) {
-        item.checked = true
-      } else {
-        item.checked = false
-      }
-    }
+    let table = $('#admin').DataTable()
+    table.rows('.important').select()
+    console.log(table);
+    
+    
   })
 })()

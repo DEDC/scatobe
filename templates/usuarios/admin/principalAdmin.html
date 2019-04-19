@@ -109,7 +109,7 @@ ABRIL
     </thead>
     <tbody align="center">
         {% for solicitud in solicitudes %}
-        <tr>
+        <tr class="important">
             <td><input class="checkDownload" type="checkbox" name="checkbox" value="{{solicitud.id}}"></td>
             <td>{{ solicitud.fecha|date:"SHORT_DATE_FORMAT" }}</td>
             <td>{{solicitud.folio}}</td>
@@ -150,7 +150,9 @@ ABRIL
             $('#f_factura').submit();
         });
 
-        $('#admin').DataTable({
+        
+        let table = $('#admin').DataTable({
+            select: true,
             "lengthChange": true,
             "lengthMenu": [[5, 10, -1], [5, 10, "Todas"]],
             "info": false,
@@ -164,6 +166,7 @@ ABRIL
                 "search": "Filtrar :"
             }
         });
+        table.rows('.checkDownload').select();
         $('select#id_zona').on('change', function () {
             let id_zona = $(this).val();
             if (id_zona.length > 0) {
