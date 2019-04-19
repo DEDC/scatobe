@@ -27,7 +27,7 @@ def descargar_pdf(request):
                             )
     clientes = []
     styles = getSampleStyleSheet()
-    header = Paragraph("Listado de Clientes", styles['Heading1'])
+    header = Paragraph("Listado de solicitudes", styles['Heading1'])
     clientes.append(header)
     headings = ('Fecha', 'Folio', 'Zona', 'Gerente', 'Categoria', 'Tipo', 'Fanpage', 'Post')
     allclientes = [(s.fecha, s.folio, s.zona, s.gerente, s.categoria, s.tipo, s.fanPage, s.post) for s in Solicitudes.objects.filter(pk__in=checkboxList)]
