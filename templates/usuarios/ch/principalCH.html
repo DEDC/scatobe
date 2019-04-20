@@ -93,7 +93,6 @@
 {% block javascript %}
     {{ block.super }}
     <script>
-        // self executing function here
         (function() {
             var date = new Date();
             $('input[name="f_mes"]').val(date.getMonth()+1);
@@ -101,7 +100,7 @@
             $('#download-factura').on('click', function(){
                 $('#f_factura').submit();
             });
-            $('#ch').DataTable({
+            var table = $('#ch').DataTable({
                 "lengthChange": true,
                 "lengthMenu": [[5, 10, -1], [5, 10, "Todas"]],
                 "info": false,
@@ -115,9 +114,9 @@
                     "search": "Filtrar :"
                 }
             });
-            // document.getElementById('btnAlert').addEventListener('click', () => {
-            //     alert('test');
-            // });
+            $('#search-table').on( 'keyup', function () {
+                table.search( this.value ).draw();
+            });
         })();
     </script>
 {% endblock javascript %}

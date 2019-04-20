@@ -150,7 +150,7 @@ ABRIL
             $('#f_factura').submit();
         });
 
-        $('#admin').DataTable({
+        var table = $('#admin').DataTable({
             "lengthChange": true,
             "lengthMenu": [[5, 10, -1], [5, 10, "Todas"]],
             "info": false,
@@ -163,6 +163,9 @@ ABRIL
                 "zeroRecords": "Sin resultados",
                 "search": "Filtrar :"
             }
+        });
+        $('#search-table').on( 'keyup', function () {
+            table.search( this.value ).draw();
         });
         $('select#id_zona').on('change', function () {
             let id_zona = $(this).val();
