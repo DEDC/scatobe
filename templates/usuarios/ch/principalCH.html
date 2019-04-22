@@ -12,8 +12,8 @@
 {% block body %}
 <form action="{% url 'usuarios:descarga_factura' %}" method="post" id="f_factura" target="_blank" >
     {% csrf_token %}
-    <input type="hidden" name="f_anio">
-    <input type="hidden" name="f_mes">
+    <input type="hidden" name="f_anio" value="{{anioActual}}">
+    <input type="hidden" name="f_mes" value="{{mesActualNumber}}">
 </form>
 {% endblock %}
 
@@ -95,8 +95,8 @@
     <script>
         (function() {
             var date = new Date();
-            $('input[name="f_mes"]').val(date.getMonth()+1);
-            $('input[name="f_anio"]').val(date.getFullYear());
+            // $('input[name="f_mes"]').val(date.getMonth()+1);
+            // $('input[name="f_anio"]').val(date.getFullYear());
             $('#download-factura').on('click', function(){
                 $('#f_factura').submit();
             });

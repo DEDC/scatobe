@@ -5,8 +5,8 @@
 {% block body %}
 <form action="{% url 'usuarios:descarga_factura' %}" method="post" id="f_factura" target="_blank">
     {% csrf_token %}
-    <input type="hidden" name="f_anio">
-    <input type="hidden" name="f_mes">
+    <input type="hidden" name="f_anio" value="{{anioActual}}">
+    <input type="hidden" name="f_mes" value="{{mesActualNumber}}">
 </form>
 <div id="modal-center" class="uk-flex-top" uk-modal>
     <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
@@ -89,7 +89,7 @@
 
 {% block zonalbox %}
 {% for zona in zonas %}
-<div class="zonal1">{{zona}} <div class="numerozona"><i class="fas fa-caret-right"></i> {{zona.soli_zona.count}}</div>
+<div class="zonal1">{{zona}} <div class="numerozona"><i class="fas fa-caret-right"></i> {{zona.total_soli}}</div>
 </div>
 {% endfor %}
 {% endblock zonalbox %}
@@ -160,8 +160,8 @@
 <script>
     (function () {
         var date = new Date();
-        $('input[name="f_mes"]').val(date.getMonth() + 1);
-        $('input[name="f_anio"]').val(date.getFullYear());
+        // $('input[name="f_mes"]').val(date.getMonth() + 1);
+        // $('input[name="f_anio"]').val(date.getFullYear());
         $('#download-factura').on('click', function () {
             $('#f_factura').submit();
         });

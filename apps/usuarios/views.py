@@ -1,6 +1,7 @@
 import datetime
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.db.models import Count, Q
 from django.contrib.auth import authenticate, login, logout
 from .forms import fRoles, fPermisos, fUsuarios
 from apps.solicitudes.models import Solicitudes, Zonas
@@ -33,7 +34,7 @@ def vPrincipalAdmin(request):
     today = datetime.datetime.now()
     arr_month = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE']
     solicitudes = Solicitudes.objects.filter(fecha__month = today.month, fecha__year = today.year)
-    zonas = Zonas.objects.all()
+    zonas = Zonas.objects.annotate(total_soli = Count('soli_zona', filter=Q(soli_zona__fecha__month = today.month, soli_zona__fecha__year = today.year)))
     fsolicitudes = fSolicitudes()
     imagenes = fImagenes()
     materiales = fMateriales()
@@ -44,6 +45,7 @@ def vPrincipalAdmin(request):
         'rImagenes' : imagenes, 
         'rMateriales' : materiales,
         'mesActual' : arr_month[today.month-1],
+        'mesActualNumber' : today.month,
         'anioActual' : today.year
         }
     return render(request, 'usuarios/admin/principalAdmin.html', context)
@@ -53,7 +55,8 @@ def vPrincipalCH(request):
     arr_month = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE']
     context = {
         'mesActual' : arr_month[today.month-1],
-        'anioActual' : today.year
+        'anioActual' : today.year,
+        'mesActualNumber' : today.month
         }
     return render(request, 'usuarios/ch/principalCH.html', context)
 
