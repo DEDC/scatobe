@@ -3,11 +3,24 @@
 {% block title %}Administrador{% endblock title %}
 
 {% block body %}
-<form action="{% url 'usuarios:descarga_factura' %}" method="post" id="f_factura" target="_blank" >
+<form action="{% url 'usuarios:descarga_factura' %}" method="post" id="f_factura" target="_blank">
     {% csrf_token %}
     <input type="hidden" name="f_anio">
     <input type="hidden" name="f_mes">
 </form>
+<div id="modal-center" class="uk-flex-top" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <h5>¿Esta seguro(a) de eliminar la solicitud?</h5>
+        <form action="" method="post" id="formDelSoli">
+            {% csrf_token %}
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancelar</button>
+                <button class="uk-button uk-button-primary" type="submit">Eliminar</button>
+            </p>
+        </form>
+    </div>
+</div>
 <div id="modal-example" uk-modal>
     <div class="uk-modal-dialog">
         <button class="uk-modal-close-default" type="button" uk-close></button>
@@ -83,11 +96,14 @@ ABRIL
 
 {% block menu %}
 <div class="boton" uk-toggle="target: #modal-example"><i class="fas fa-plus"></i>&nbsp;&nbsp;AGREGAR</div>
-<div class="boton" data-post="{% url 'usuarios:descarga_pdf' %}" id="makePdf"><i class="far fa-file-pdf"></i>&nbsp;&nbsp;GENERAR PDF</div>
+<div class="boton" data-post="{% url 'usuarios:descarga_pdf' %}" id="makePdf"><i
+        class="far fa-file-pdf"></i>&nbsp;&nbsp;GENERAR PDF</div>
 <div class="boton" id="download-factura"><i class="fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;DESCARGAR FACTURA</div>
-<div class="boton"><a href="{% url 'usuarios:formularios' %}" style="color:white;"><i class="fas fa-cog"></i>&nbsp;&nbsp;CONFIGURACIONES</a>
+<div class="boton"><a href="{% url 'usuarios:formularios' %}" style="color:white;"><i
+            class="fas fa-cog"></i>&nbsp;&nbsp;CONFIGURACIONES</a>
 </div>
-<div class="boton"><a href="{% url 'usuarios:logout' %}" style="color:white;"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;SALIR</a></div>
+<div class="boton"><a href="{% url 'usuarios:logout' %}" style="color:white;"><i
+            class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;SALIR</a></div>
 {% endblock menu %}
 
 {% block tablaDetalles %}
@@ -129,7 +145,7 @@ ABRIL
                 <a href="//{{solicitud.link}}" title="" target="_blank"><i class="fas fa-link"></i></a>
                 <a href="{% url 'usuarios:descarga_multi' solicitud.id %}" title=""><i class="fas fa-download"></i></a>
                 <i class="far fa-edit"></i>
-                <i class="fas fa-trash-alt"></i>
+                <a href="{% url 'usuarios:eSolicitudes' solicitud.id %}" uk-toggle="target: #modal-center" class="deleteSoli"><i class="fas fa-trash-alt"></i></a>
             </td>
         </tr>
         {% endfor %}
@@ -144,12 +160,11 @@ ABRIL
 <script>
     (function () {
         var date = new Date();
-        $('input[name="f_mes"]').val(date.getMonth()+1);
+        $('input[name="f_mes"]').val(date.getMonth() + 1);
         $('input[name="f_anio"]').val(date.getFullYear());
-        $('#download-factura').on('click', function(){
+        $('#download-factura').on('click', function () {
             $('#f_factura').submit();
         });
-
         var table = $('#admin').DataTable({
             "lengthChange": true,
             "lengthMenu": [[5, 10, -1], [5, 10, "Todas"]],
@@ -164,8 +179,8 @@ ABRIL
                 "search": "Filtrar :"
             }
         });
-        $('#search-table').on( 'keyup', function () {
-            table.search( this.value ).draw();
+        $('#search-table').on('keyup', function () {
+            table.search(this.value).draw();
         });
         $('select#id_zona').on('change', function () {
             let id_zona = $(this).val();
@@ -174,6 +189,10 @@ ABRIL
                 getGerentes(id_zona);
             }
         });
+        $('.deleteSoli').on('click', function(e){
+            e.preventDefault();
+            $('#formDelSoli').attr('action', $(this).attr('href'));
+        })
     })();
     function getFanpages(id_zona) {
         clean("id_fanPage")

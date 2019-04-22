@@ -290,6 +290,14 @@ def vRegistroSolicitudes(request):
     context = {'rSolicitudes' : solicitud, 'rImagenes' : imagen}
     return render(request, 'solicitudes/registroSolicitud.html', context)
 
+def vEliminarSolicitudes(request, id):
+    solicitud = get_object_or_404(Solicitudes, pk = id)
+    if request.method == 'POST':
+        solicitud.delete()
+    return redirect('usuarios:pAdmin')
+
+
+
 # def vEditarSolicitudes(request, id):
 #     solicitud = get_object_or_404(Solicitudes, pk = id)
 #     if request.method == 'POST':
