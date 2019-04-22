@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -29,12 +30,22 @@ def vLogin(request):
     return render(request, 'usuarios/login.html')
 
 def vPrincipalAdmin(request):
-    solicitudes = Solicitudes.objects.all()
+    today = datetime.datetime.now()
+    arr_month = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE']
+    solicitudes = Solicitudes.objects.filter(fecha__month = today.month, fecha__year = today.year)
     zonas = Zonas.objects.all()
     fsolicitudes = fSolicitudes()
     imagenes = fImagenes()
     materiales = fMateriales()
-    context = {'solicitudes' : solicitudes, 'zonas' : zonas, 'rSolicitudes' : fsolicitudes, 'rImagenes' : imagenes, 'rMateriales' : materiales}
+    context = {
+        'solicitudes' : solicitudes, 
+        'zonas' : zonas, 
+        'rSolicitudes' : fsolicitudes, 
+        'rImagenes' : imagenes, 
+        'rMateriales' : materiales,
+        'mesActual' : arr_month[today.month-1],
+        'anioActual' : today.year
+        }
     return render(request, 'usuarios/admin/principalAdmin.html', context)
 
 def vPrincipalCH(request):
