@@ -49,14 +49,13 @@ def vPrincipalAdmin(request):
     return render(request, 'usuarios/admin/principalAdmin.html', context)
 
 def vPrincipalCH(request):
-    zona = request.user.zonas.all()
-    print(zona[0].soli_zona.all())
-    # usuario = User.objects.all()
-    # print(usuario[1].zonas.all())
-    # # TRAER LAS ZONAS DE LOS USUARIOS
-    # solicitudes = Solicitudes.objects.all()
-    # context = {'solicitudes' : solicitudes, 'usuario' : usuario}
-    return render(request, 'usuarios/ch/principalCH.html')
+    today = datetime.datetime.now()
+    arr_month = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE']
+    context = {
+        'mesActual' : arr_month[today.month-1],
+        'anioActual' : today.year
+        }
+    return render(request, 'usuarios/ch/principalCH.html', context)
 
 def vRoles(request):
     if request.method == 'POST':
