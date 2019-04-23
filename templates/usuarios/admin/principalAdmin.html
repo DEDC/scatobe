@@ -144,7 +144,7 @@
                 <a href="#" class="open-lightbox"><i class="far fa-image"></i></a>
                 <a href="//{{solicitud.link}}" title="" target="_blank"><i class="fas fa-link"></i></a>
                 <a href="{% url 'usuarios:descarga_multi' solicitud.id %}" title=""><i class="fas fa-download"></i></a>
-                <i class="far fa-edit"></i>
+                <a href="{% url 'usuarios:edSolicitudes' solicitud.id %}" target="_blank"><i class="far fa-edit"></i></a>
                 <a href="{% url 'usuarios:eSolicitudes' solicitud.id %}" uk-toggle="target: #modal-center" class="deleteSoli"><i class="fas fa-trash-alt"></i></a>
             </td>
         </tr>

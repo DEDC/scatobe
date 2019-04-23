@@ -290,28 +290,59 @@ def vRegistroSolicitudes(request):
     context = {'rSolicitudes' : solicitud, 'rImagenes' : imagen}
     return render(request, 'solicitudes/registroSolicitud.html', context)
 
+def vEditarSolicitudes(request, id):
+    solicitud = get_object_or_404(Solicitudes, pk = id)
+    if request.method == 'POST':
+        fsolicitud = fSolicitudes(request.POST, instance = solicitud)
+        if fsolicitud.is_valid():
+            fsolicitud.save()
+            print('solicitud editada')
+        else:
+            print('solicitud no editada')
+    else:
+        fsolicitud = fSolicitudes(instance = solicitud)
+    context = {'edSolicitudes' : fsolicitud, 'solicitud' : solicitud}
+    return render(request, 'usuarios/admin/editarSolicitudes.html', context)
+
 def vEliminarSolicitudes(request, id):
     solicitud = get_object_or_404(Solicitudes, pk = id)
     if request.method == 'POST':
         solicitud.delete()
     return redirect('usuarios:pAdmin')
 
+#--- CRUD Imágenes
+def vRegistrarImagenes(request):
+    if request.method == 'POST':
+        id_solicitud = request.POST.get('solicitud')
+        solicitud = get_object_or_404(Solicitudes, pk = id_solicitud)
+        imagenes = request.FILES.getlist('nvoImagen')
+        for imagen in imagenes:
+            Imagenes.objects.create(imagen = imagen, nombre = imagen.name, solicitud = solicitud)
+        return redirect('usuarios:edSolicitudes', id = id_solicitud)
+    else:
+        return redirect('usuarios:pAdmin')
 
+def vEliminarImagenes(request, id_solicitud, id_imagen):
+    imagen = get_object_or_404(Imagenes, pk = id_imagen)
+    imagen.delete()
+    return redirect('usuarios:edSolicitudes', id = id_solicitud)
 
-# def vEditarSolicitudes(request, id):
-#     solicitud = get_object_or_404(Solicitudes, pk = id)
-#     if request.method == 'POST':
-#         fsolicitud = fSolicitudes(request.POST, instance = solicitud)
-#         if fsolicitud.is_valid():
-#             fsolicitud.save()
-#             print('solicitud editada')
-#         else:
-#             print('solicitud no editada')
-#     else:
-#         fsolicitud = fSolicitudes(instance = solicitud)
-#     context = {'edSolicitudes' : fsolicitud}
-#     return render(request, 'solicitudes/tabla.html', context)
+#--- CRUD Materiales
+def vRegistrarMateriales(request):
+    if request.method == 'POST':
+        id_solicitud = request.POST.get('solicitud')
+        solicitud = get_object_or_404(Solicitudes, pk = id_solicitud)
+        materiales = request.FILES.getlist('nvoMaterial')
+        for material in materiales:
+            Materiales.objects.create(material = material, nombre = material.name, solicitud = solicitud)
+            print('material agregado')
+        return redirect('usuarios:edSolicitudes', id = id_solicitud)
+    else:
+        return redirect('usuarios:pAdmin')
 
-
+def vEliminarMateriales(request, id_solicitud, id_material):
+    material = get_object_or_404(Materiales, pk = id_material)
+    material.delete()
+    return redirect('usuarios:edSolicitudes', id = id_solicitud)
 
 

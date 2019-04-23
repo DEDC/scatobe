@@ -8,7 +8,10 @@ from apps.solicitudes.views import (vRegistroZonas, vEditarZonas, vEliminarZonas
                                     vRegistroTipos, vEditarTipos, vEliminarTipos,
                                     vRegistroGerentes, vEditarGerentes, vEliminarGerentes, vObtenerGerentesByFK,
                                     vRegistroFanPages, vEditarFanPages, vEliminarFanPages, vObtenerFanPagesByFK,
-                                    vRegistroSolicitudes, vEliminarSolicitudes, vFormularios, vRegistroFacturas)
+                                    vRegistroSolicitudes, vEditarSolicitudes, vEliminarSolicitudes,
+                                    vRegistrarImagenes, vEliminarImagenes,
+                                    vRegistrarMateriales, vEliminarMateriales, 
+                                    vFormularios, vRegistroFacturas)
 app_name = 'usuarios'
 
 urlpatterns = [
@@ -54,7 +57,14 @@ urlpatterns = [
     path('admin/facturas/crear', vRegistroFacturas, name = 'rFacturas'),
     #--- Solicitudes
     path('admin/solicitudes/crear', vRegistroSolicitudes, name = 'rSolicitudes'),
+    path('admin/solicitudes/editar/<int:id>', vEditarSolicitudes, name = 'edSolicitudes'),
     path('admin/solicitudes/eliminar/<int:id>', vEliminarSolicitudes, name = 'eSolicitudes'),
+    #--- Imágenes
+    path('admin/solicitudes/imagenes/crear', vRegistrarImagenes, name = 'rImagenes'),
+    path('admin/solicitudes/imagenes/eliminar/<int:id_solicitud>/<int:id_imagen>', vEliminarImagenes, name = 'eImagenes'),
+    #--- Materiales
+    path('admin/solicitudes/materiales/crear', vRegistrarMateriales, name = 'rMateriales'),
+    path('admin/solicitudes/materiales/eliminar/<int:id_solicitud>/<int:id_material>', vEliminarMateriales, name = 'eMateriales'),
     #---AJAX
     path('admin/ajax/fp', vObtenerFanPagesByFK),
     path('admin/ajax/gr', vObtenerGerentesByFK),
