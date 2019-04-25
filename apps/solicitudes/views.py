@@ -274,7 +274,7 @@ def vRegistroSolicitudes(request):
         imagen = fImagenes(request.POST, request.FILES)
         material = fMateriales(request.POST, request.FILES)
         solicitud = fSolicitudes(request.POST)
-        if solicitud.is_valid() and imagen.is_valid():
+        if solicitud.is_valid() and imagen.is_valid() and material.is_valid() :
             solicitud.save()
             for img in request.FILES.getlist('imagen'):
                 Imagenes.objects.create(imagen = img, nombre = img.name, solicitud = solicitud.save())

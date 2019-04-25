@@ -21,7 +21,7 @@
         </form>
     </div>
 </div>
-<div id="modal-example" uk-modal>
+<div id="modal-example" uk-modal class="uk-modal-container">
     <div class="uk-modal-dialog">
         <button class="uk-modal-close-default" type="button" uk-close></button>
         <div class="uk-modal-header">
@@ -31,44 +31,62 @@
             <form action="{% url 'usuarios:rSolicitudes' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <p>
-                    <label for="id_fecha">Fecha:</label>
-                    {{rSolicitudes.fecha}}
+                    <div class="titulos">Sobre la Solicitud</div>
+                    <div class="formulario">
+                        <label for="id_fecha" class="subtitulo">Fecha de solicitud</label>
+                        {{rSolicitudes.fecha}}
+                    </div>
+                    <div class="formulario">
+                        <label for="id_folio" class="subtitulo">Folio asignado</label>
+                        {{rSolicitudes.folio}}
+                    </div>
+                    <div class="formulario">
+                        <label for="id_categoria" class="subtitulo">Categoría</label>
+                        {{rSolicitudes.categoria}}
+                    </div>
                 </p>
                 <p>
-                    <label for="id_folio">Folio:</label>
-                    {{rSolicitudes.folio}}
+                    <div class="titulos">Sobre el Solicitante</div>
+                    <div class="formulario">
+                        <label for="id_zona" class="subtitulo">Zona a la que pertenece</label>
+                        {{rSolicitudes.zona}}
+                    </div>
+                    <div class="formulario">
+                        <label for="id_gerente" class="subtitulo">Nombre del gerente</label>
+                        <select name="gerente" id="id_gerente" required></select>
+                    </div>
+                    <div class="formulario">
+                        <label for="id_tipo" class="subtitulo">Tipo de publicación</label>
+                        {{rSolicitudes.tipo}}
+                    </div>
                 </p>
                 <p>
-                    <label for="id_post">Post:</label>
-                    {{rSolicitudes.post}}
+                    <div class="titulos">Datos de Facebook</div>
+                    <div class="formulario">
+                        <label for="id_fanPage" class="subtitulo">FanPage</label>
+                        <select name="fanPage" id="id_fanPage" required></select>
+                    </div>
+                    <div class="formulario">
+                        <label for="id_post" class="subtitulo">Fecha de posteo</label>
+                        {{rSolicitudes.post}}
+                    </div>
+                    <div class="formulario">
+                        <label for="id_imagen" class="subtitulo">Captura de publicación</label>
+                        {{rImagenes.imagen}}
+                    </div>
+                    <div class="formulario">
+                        <label for="id_link" class="subtitulo">Enlace permanente</label>
+                        {{rSolicitudes.link}}
+                    </div>
                 </p>
                 <p>
-                    <label for="id_link">Link:</label>
-                    {{rSolicitudes.link}}
+                    <div class="titulos">Exclusivo Tobe</div>
+                    <div class="formulario">
+                        <label for="id_material" class="subtitulo">Material para descarga</label>
+                        {{rMateriales.material}}
+                    </div>
                 </p>
-                <p>
-                    <label for="id_zona">Zonas:</label>
-                    {{rSolicitudes.zona}}
-                </p>
-                <p>
-                    <label for="id_categoria">Categorías:</label>
-                    {{rSolicitudes.categoria}}
-                </p>
-                <p>
-                    <label for="id_tipo">Tipo:</label>
-                    {{rSolicitudes.tipo}}
-                </p>
-                <p>
-                    <label for="id_fanPage">FanPages:</label>
-                    <select name="fanPage" id="id_fanPage" required></select>
-                </p>
-                <p>
-                    <label for="id_gerente">Gerentes:</label>
-                    <select name="gerente" id="id_gerente" required></select>
-                </p>
-                {{rImagenes.as_p}}
-                {{rMateriales.as_p}}
-                <button type="submit">Guardar</button>
+                <button type="submit" class="boton-registro-soli iniciarsesion">Guardar</button>
             </form>
         </div>
         <!-- <div class="uk-modal-footer uk-text-right"> -->
@@ -159,6 +177,8 @@
 {{ block.super }}
 <script>
     (function () {
+        console.log($('#modal-example input').addClass('form-input'));
+        console.log($('#modal-example select').addClass('form-input'));
         var date = new Date();
         // $('input[name="f_mes"]').val(date.getMonth() + 1);
         // $('input[name="f_anio"]').val(date.getFullYear());
