@@ -29,7 +29,7 @@ class Gerentes(models.Model):
         
 class Solicitudes(models.Model):
     fecha = models.DateField()
-    folio = models.CharField(max_length = 10)
+    folio = models.CharField(max_length = 15)
     post = models.DateField()
     link = models.CharField(max_length = 500)
     zona = models.ForeignKey(Zonas, on_delete = models.PROTECT, related_name= 'soli_zona')
