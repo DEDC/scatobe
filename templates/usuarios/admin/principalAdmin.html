@@ -64,7 +64,8 @@
                     <div class="titulos">Datos de Facebook</div>
                     <div class="formulario">
                         <label for="id_fanPage" class="subtitulo">FanPage</label>
-                        <select name="fanPage" id="id_fanPage" required></select>
+                        {{rSolicitudes.fanPage}}
+                        <!-- <select name="fanPage" id="id_fanPage" required></select> -->
                     </div>
                     <div class="formulario">
                         <label for="id_post" class="subtitulo">Fecha de posteo</label>
@@ -90,8 +91,21 @@
             </form>
         </div>
         <div class="uk-modal-footer uk-text-right">
-        <!-- <button class="uk-button uk-button-default uk-modal-close" type="button">Cancelar</button> -->
-        <!-- <button class="uk-button uk-button-primary" type="button">Guardar</button> -->
+        </div>
+    </div>
+</div>
+<div id="modal-overflow" uk-modal>
+    <div class="uk-modal-dialog">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">Headline</h2>
+        </div>
+        <div class="uk-modal-body" uk-overflow-auto>
+            <iframe src="/admin/solicitudes/editar/14" width="100%" height="500"></iframe>
+        </div>
+        <div class="uk-modal-footer uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <button class="uk-button uk-button-primary" type="button">Save</button>
         </div>
     </div>
 </div>
@@ -162,7 +176,7 @@
                 <a href="#" class="open-lightbox"><i class="far fa-image"></i></a>
                 <a href="{{solicitud.link}}" title="" target="_blank"><i class="fas fa-link"></i></a>
                 <a href="{% url 'usuarios:descarga_multi' solicitud.id %}" title=""><i class="fas fa-download"></i></a>
-                <a href="{% url 'usuarios:edSolicitudes' solicitud.id %}" target="_blank"><i class="far fa-edit"></i></a>
+                <a href="{% url 'usuarios:edSolicitudes' solicitud.id %}" class="editSoli" target="_blank"><i class="far fa-edit"></i></a>
                 <a href="{% url 'usuarios:eSolicitudes' solicitud.id %}" uk-toggle="target: #modal-center" class="deleteSoli"><i class="fas fa-trash-alt"></i></a>
             </td>
         </tr>
@@ -205,32 +219,36 @@
         $('select#id_zona').on('change', function () {
             let id_zona = $(this).val();
             if (id_zona.length > 0) {
-                getFanpages(id_zona);
+                // getFanpages(id_zona);
                 getGerentes(id_zona);
             }
         });
         $('.deleteSoli').on('click', function(e){
             e.preventDefault();
             $('#formDelSoli').attr('action', $(this).attr('href'));
-        })
-    })();
-    function getFanpages(id_zona) {
-        clean("id_fanPage")
-        $.ajax({
-            method: "POST",
-            url: "ajax/fp",
-            beforeSend: function () {
-                // preloader.className += ' active';
-            },
-            data: { csrfmiddlewaretoken: getCSRFTokenValue(), id_zona: id_zona }
-        }).done(function (fanpages) {
-            if (fanpages.length > 0) {
-                addOptionsSelect(fanpages, "id_fanPage");
-            }
-        }).fail(function () {
-            console.log('falló papá');
         });
-    }
+        // $('.editSoli').on('click', function(e){
+        //     e.preventDefault();
+        //     // $('#formDelSoli').attr('action', $(this).attr('href'));
+        // });
+    })();
+    // function getFanpages(id_zona) {
+    //     clean("id_fanPage")
+    //     $.ajax({
+    //         method: "POST",
+    //         url: "ajax/fp",
+    //         beforeSend: function () {
+    //             // preloader.className += ' active';
+    //         },
+    //         data: { csrfmiddlewaretoken: getCSRFTokenValue(), id_zona: id_zona }
+    //     }).done(function (fanpages) {
+    //         if (fanpages.length > 0) {
+    //             addOptionsSelect(fanpages, "id_fanPage");
+    //         }
+    //     }).fail(function () {
+    //         console.log('falló papá');
+    //     });
+    // }
     function getGerentes(id_zona) {
         clean("id_gerente")
         $.ajax({

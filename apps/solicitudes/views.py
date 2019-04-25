@@ -345,4 +345,5 @@ def vEliminarMateriales(request, id_solicitud, id_material):
     material.delete()
     return redirect('usuarios:edSolicitudes', id = id_solicitud)
 
-
+# def pruebaReturnHTML():
+#     return HttpResponse()

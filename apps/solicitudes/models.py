@@ -17,7 +17,6 @@ class Tipos(models.Model):
 
 class FanPages(models.Model):
     nombre = models.CharField(max_length = 50)
-    zona = models.ForeignKey(Zonas, on_delete = models.PROTECT)
     def __str__(self):
         return '%s' % (self.nombre)
 
