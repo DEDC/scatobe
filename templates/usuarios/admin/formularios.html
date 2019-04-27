@@ -30,32 +30,34 @@
         <div class="container">
             <div class="row">
                 <a href="#" data-target="slide-out" class="btn sidenav-trigger"><i class="material-icons"></i>Menú</a>
-                <h1>Facturas del mes</h1>
-                <form action="{% url 'usuarios:rFacturas' %}" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{rFacturas.as_p}}
-                    <p>
-                        <select name="factura_mes" required="" id="id_factura_mes">  
-                            <option value="1" selected>Enero</option>
-                            <option value="2">Febrero</option>
-                            <option value="3">Marzo</option>
-                            <option value="4">Abril</option>
-                            <option value="5">Mayo</option>
-                            <option value="6">Junio</option>
-                            <option value="7">Julio</option>
-                            <option value="8">Agosto</option>
-                            <option value="9">Septiembre</option>
-                            <option value="10">Octubre</option>
-                            <option value="11">Noviembre</option>
-                            <option value="12">Diciembre</option>
-                        </select>
-                    </p>
-                    <input type="hidden" name="factura_anio">
-                    <p id="anio_actual">
-                        Año actual :
-                    </p>
-                    <button type="submit">Guardar</button>
-                </form>
+                <fieldset>
+                    <legend><h5>Facturas del mes</h5></legend>
+                    <form action="{% url 'usuarios:rFacturas' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{rFacturas.as_p}}
+                        <p>
+                            <select name="factura_mes" required="" id="id_factura_mes">  
+                                <option value="1" selected>Enero</option>
+                                <option value="2">Febrero</option>
+                                <option value="3">Marzo</option>
+                                <option value="4">Abril</option>
+                                <option value="5">Mayo</option>
+                                <option value="6">Junio</option>
+                                <option value="7">Julio</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                            </select>
+                        </p>
+                        <input type="hidden" name="factura_anio">
+                        <p id="anio_actual">
+                            Año actual :
+                        </p>
+                        <button type="submit">Guardar</button>
+                    </form>
+                </fieldset>
                 <br><br>
             </div>
             <div class="row">

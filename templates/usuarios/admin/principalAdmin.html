@@ -47,8 +47,9 @@
                 </p>
                 <p>
                     <div class="titulos">Sobre el Solicitante</div>
-                    <div class="formulario">
+                    <div class="formulario" id="cont-select-zona">
                         <label for="id_zona" class="subtitulo">Zona a la que pertenece</label>
+                        <!-- Define a que zona pertenece la solicitud -->
                         {{rSolicitudes.zona}}
                     </div>
                     <div class="formulario">
@@ -57,15 +58,19 @@
                     </div>
                     <div class="formulario">
                         <label for="id_tipo" class="subtitulo">Tipo de publicación</label>
-                        {{rSolicitudes.tipo}}
+                        <select name="tipo" id="new_select_tipo" required></select>
                     </div>
                 </p>
                 <p>
                     <div class="titulos">Datos de Facebook</div>
                     <div class="formulario">
                         <label for="id_fanPage" class="subtitulo">FanPage</label>
-                        {{rSolicitudes.fanPage}}
-                        <!-- <select name="fanPage" id="id_fanPage" required></select> -->
+                        <select name="fanPage" id="id_fanPage" required></select>
+                    </div>
+                    <div class="formulario">
+                        <label for="id_zona_fanPage" class="subtitulo">Zona de la FanPage</label>
+                        <!-- Define a que zona pertenece la solicitud -->
+                        <select name="zona" id="id_zona_fanPage" required></select>
                     </div>
                     <div class="formulario">
                         <label for="id_post" class="subtitulo">Fecha de posteo</label>
@@ -161,7 +166,7 @@
             <td><input class="checkDownload" type="checkbox" name="checkbox" value="{{solicitud.id}}"></td>
             <td>{{ solicitud.fecha|date:"SHORT_DATE_FORMAT" }}</td>
             <td>{{solicitud.folio}}</td>
-            <td>{{solicitud.zona}}</td>
+            <td>{{solicitud.gerente.zona}}</td>
             <td>{{solicitud.gerente}}</td>
             <td>{{solicitud.categoria}}</td>
             <td>{{solicitud.tipo}}</td>
@@ -176,7 +181,7 @@
                 <a href="#" class="open-lightbox"><i class="far fa-image"></i></a>
                 <a href="{{solicitud.link}}" title="" target="_blank"><i class="fas fa-link"></i></a>
                 <a href="{% url 'usuarios:descarga_multi' solicitud.id %}" title=""><i class="fas fa-download"></i></a>
-                <a href="{% url 'usuarios:edSolicitudes' solicitud.id %}" class="editSoli" target="_blank"><i class="far fa-edit"></i></a>
+                <a href="{% url 'usuarios:edSolicitudes' solicitud.id %}" data-id="{{solicitud.id}}" class="editSoli" target="_blank"><i class="far fa-edit"></i></a>
                 <a href="{% url 'usuarios:eSolicitudes' solicitud.id %}" uk-toggle="target: #modal-center" class="deleteSoli"><i class="fas fa-trash-alt"></i></a>
             </td>
         </tr>
@@ -191,14 +196,15 @@
 {{ block.super }}
 <script>
     (function () {
+        $('select#id_zona').removeAttr('name')
+        // Añade clases para darles estilos css
         $('#modal-example input').addClass('form-input');
         $('#modal-example select').addClass('form-input');
-        var date = new Date();
-        // $('input[name="f_mes"]').val(date.getMonth() + 1);
-        // $('input[name="f_anio"]').val(date.getFullYear());
+        // Descargar factura
         $('#download-factura').on('click', function () {
             $('#f_factura').submit();
         });
+        //Inicialización de la tabla
         var table = $('#admin').DataTable({
             "lengthChange": true,
             "lengthMenu": [[5, 10, -1], [5, 10, "Todas"]],
@@ -213,42 +219,100 @@
                 "search": "Filtrar :"
             }
         });
+        //Input de búsqueda personalizado
         $('#search-table').on('keyup', function () {
             table.search(this.value).draw();
         });
-        $('select#id_zona').on('change', function () {
-            let id_zona = $(this).val();
-            if (id_zona.length > 0) {
-                // getFanpages(id_zona);
-                getGerentes(id_zona);
-            }
-        });
+
+        //Evento para cambiar el select de gerentes
         $('.deleteSoli').on('click', function(e){
             e.preventDefault();
             $('#formDelSoli').attr('action', $(this).attr('href'));
         });
-        // $('.editSoli').on('click', function(e){
-        //     e.preventDefault();
-        //     // $('#formDelSoli').attr('action', $(this).attr('href'));
-        // });
+        $('.editSoli').on('click', function(e){
+            e.preventDefault();
+            let id_soli = $(this).attr('data-id');
+            if(id_soli.length > 0){
+                editarSolicitudes(id_soli);
+            }
+        });
+        //evento para cambiar el select de gerentes 
+        $('select#id_zona').on('change', function () {
+            let id_zona = $(this).val();
+            if (id_zona.length > 0) {
+                getGerentes(id_zona);
+            }
+        });
+
+        //Generando el select de tipo dinámicamente
+        getTiposSelect();
+        $('select#new_select_tipo').on('change', function(){
+            let codename = $("#new_select_tipo option:selected").attr('data-codename')
+            if(codename === 'local'){
+                getFanpages($("#id_zona").val())
+            }
+            else{
+                getFanpages('*')
+            }
+        })
+        //Generando select multi-zonas de fanpages dinámicamente
+        $('select#id_fanPage').on('change', function(){
+            let id_fp = $(this).val();
+            if (id_fp.length > 0) {
+                getZonas(id_fp)
+            }
+        })
     })();
-    // function getFanpages(id_zona) {
-    //     clean("id_fanPage")
-    //     $.ajax({
-    //         method: "POST",
-    //         url: "ajax/fp",
-    //         beforeSend: function () {
-    //             // preloader.className += ' active';
-    //         },
-    //         data: { csrfmiddlewaretoken: getCSRFTokenValue(), id_zona: id_zona }
-    //     }).done(function (fanpages) {
-    //         if (fanpages.length > 0) {
-    //             addOptionsSelect(fanpages, "id_fanPage");
-    //         }
-    //     }).fail(function () {
-    //         console.log('falló papá');
-    //     });
-    // }
+    function getTiposSelect(select_tipo){
+        $.ajax({
+            method: "POST",
+            url: "ajax/tp",
+            beforeSend: function () {
+                // preloader.className += ' active';
+            },
+            data: { csrfmiddlewaretoken: getCSRFTokenValue()}
+        }).done(function (tipos) {
+            if (tipos.length > 0) {
+                addOptionsSelectTipos(tipos, "new_select_tipo");
+            }
+        }).fail(function () {
+            console.log('falló papá');
+        });
+    }
+    function getFanpages(id_zona) {
+        clean("id_fanPage")
+        $.ajax({
+            method: "POST",
+            url: "ajax/fp",
+            beforeSend: function () {
+                // preloader.className += ' active';
+            },
+            data: { csrfmiddlewaretoken: getCSRFTokenValue(), id_zona: id_zona }
+        }).done(function (fanpages) {
+            if (fanpages.length > 0) {
+                addOptionsSelect(fanpages, "id_fanPage");
+            }
+        }).fail(function () {
+            console.log('falló papá');
+        });
+    }
+    function editarSolicitudes(id_soli){
+        $.ajax({
+            method: "POST",
+            url: "ajax/editarSolicitud",
+            beforeSend: function () {
+                // preloader.className += ' active';
+            },
+            data: { csrfmiddlewaretoken: getCSRFTokenValue(), id_soli: id_soli }
+        }).done(function (result) {
+            console.log(result)
+            // if (gerentes.length > 0) {
+            //     // addOptionsSelect(gerentes, "id_gerente");
+            // }
+        }).fail(function () {
+            console.log('falló papá');
+        });
+    }
     function getGerentes(id_zona) {
         clean("id_gerente")
         $.ajax({
@@ -266,12 +330,41 @@
             console.log('falló papá');
         });
     }
+    function getZonas(id_fp) {
+        clean("id_zona_fanPage")
+        $.ajax({
+            method: "POST",
+            url: "ajax/zn",
+            beforeSend: function () {
+                // preloader.className += ' active';
+            },
+            data: { csrfmiddlewaretoken: getCSRFTokenValue(), id_fp: id_fp }
+        }).done(function (zonas) {
+            if (zonas.length > 0) {
+                addOptionsSelectZonas(zonas, "id_zona_fanPage");
+            }
+        }).fail(function () {
+            console.log('falló papá');
+        });
+    }
     function clean(select_id) {
         $('#' + select_id).empty();
     }
     function addOptionsSelect(data, select_id) {
+        $('#' + select_id).append('<option value="" selected="">---------</option>');
         data.forEach(element => {
             $('#' + select_id).append('<option value= ' + element.pk + ' >' + element.fields.nombre + '</option>');
+        });
+    }
+    function addOptionsSelectZonas(data, select_id) {
+        data.forEach(element => {
+            $('#' + select_id).append('<option value= ' + element.pk + ' >' + element.fields.nombre + '</option>');
+        });
+    }
+    function addOptionsSelectTipos(data, select_id) {
+        $('#' + select_id).append('<option value="" selected="">---------</option>');
+        data.forEach(element => {
+            $('#' + select_id).append('<option data-codename=' + element.fields.codename + ' value= ' + element.pk + ' >' + element.fields.nombre + '</option>');
         });
     }
     function getCSRFTokenValue() {

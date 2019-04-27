@@ -82,9 +82,13 @@ def vObtenerZona(id):
     zona = get_object_or_404(Zonas, pk = id)
     return zona
 
-def vObtenerZonas():
-    zonas = Zonas.objects.all()
-    return zonas
+def vObtenerZonas(request):
+    if request.is_ajax():
+        id = request.POST.get('id_fp')
+        zonas = serializers.serialize('json', Zonas.objects.filter(fan_zonas__exact = id))
+        return HttpResponse(zonas, content_type = 'application/json')
+    else:
+        print('salió mal')
 
 #--- CRUD Categorías
 def vRegistroCategorias(request):
@@ -168,9 +172,12 @@ def vObtenerTipo(id):
     tipo = get_object_or_404(Tipos, pk = id)
     return tipo
 
-def vObtenerTipos():
-    tipos = Tipos.objects.all()
-    return tipos
+def vObtenerTipos(request):
+    if request.is_ajax():
+        tipos = serializers.serialize('json', Tipos.objects.all())
+        return HttpResponse(tipos, content_type = 'application/json')
+    else:
+        print('salió mal')
 
 #--- CRUD FanPages
 def vRegistroFanPages(request):
@@ -218,7 +225,10 @@ def vObtenerFanPages():
 def vObtenerFanPagesByFK(request):
     if request.is_ajax():
         id = request.POST.get('id_zona')
-        fanpages = serializers.serialize('json', FanPages.objects.filter(zona__exact = id))
+        if id == '*':
+            fanpages = serializers.serialize('json', FanPages.objects.all())
+        else:
+            fanpages = serializers.serialize('json', FanPages.objects.filter(zonas__exact = id))
         return HttpResponse(fanpages, content_type = 'application/json')
     else:
         print('salió mal')
@@ -345,5 +355,11 @@ def vEliminarMateriales(request, id_solicitud, id_material):
     material.delete()
     return redirect('usuarios:edSolicitudes', id = id_solicitud)
 
-# def pruebaReturnHTML():
-#     return HttpResponse()
+def pruebaReturnHTML(request):
+    if request.is_ajax():
+        id = request.POST.get('id_soli')
+        solicitud = get_object_or_404(Solicitudes, pk = id)
+        fsolicitud = fSolicitudes(instance = solicitud)
+        context = {'edSolicitudes' : fsolicitud, 'solicitud' : solicitud}
+        response = render(request, 'usuarios/admin/editarSolicitudes.html', context)
+        return HttpResponse(response)

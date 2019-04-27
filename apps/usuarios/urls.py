@@ -3,12 +3,12 @@ from .views import vLogin, vLogout, vRegistroUsuarios, vPrincipalAdmin, vPrincip
 from .views import vRoles, vPermisos
 from apps.solicitudes.descarga_archivos import descargar_multimedia, descargar_factura
 from apps.solicitudes.descargar_reporte import descargar_pdf
-from apps.solicitudes.views import (vRegistroZonas, vEditarZonas, vEliminarZonas,
+from apps.solicitudes.views import (vRegistroZonas, vEditarZonas, vEliminarZonas, vObtenerZonas,
                                     vRegistroCategorias, vEditarCategorias, vEliminarCategorias,
-                                    vRegistroTipos, vEditarTipos, vEliminarTipos,
+                                    vRegistroTipos, vEditarTipos, vEliminarTipos, vObtenerTipos,
                                     vRegistroGerentes, vEditarGerentes, vEliminarGerentes, vObtenerGerentesByFK,
                                     vRegistroFanPages, vEditarFanPages, vEliminarFanPages, vObtenerFanPagesByFK,
-                                    vRegistroSolicitudes, vEditarSolicitudes, vEliminarSolicitudes,
+                                    vRegistroSolicitudes, vEditarSolicitudes, vEliminarSolicitudes, pruebaReturnHTML,
                                     vRegistrarImagenes, vEliminarImagenes,
                                     vRegistrarMateriales, vEliminarMateriales, 
                                     vFormularios, vRegistroFacturas)
@@ -68,6 +68,9 @@ urlpatterns = [
     #---AJAX
     path('admin/ajax/fp', vObtenerFanPagesByFK),
     path('admin/ajax/gr', vObtenerGerentesByFK),
+    path('admin/ajax/tp', vObtenerTipos),
+    path('admin/ajax/zn', vObtenerZonas),
+    path('admin/ajax/editarSolicitud', pruebaReturnHTML),
     #--- Descargas
     path('descarga/materiales/<int:id>', descargar_multimedia, name = 'descarga_multi'),
     path('descarga/factura/', descargar_factura, name = 'descarga_factura'),
