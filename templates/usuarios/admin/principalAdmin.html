@@ -103,14 +103,14 @@
     <div class="uk-modal-dialog">
         <button class="uk-modal-close-default" type="button" uk-close></button>
         <div class="uk-modal-header">
-            <h2 class="uk-modal-title">Headline</h2>
+            <h2 class="uk-modal-title">Editar solicitud</h2>
         </div>
-        <div class="uk-modal-body" uk-overflow-auto>
-            <iframe src="/admin/solicitudes/editar/14" width="100%" height="500"></iframe>
+        <div class="uk-modal-body" id="modal-edit-soli"uk-overflow-auto>
+            <!-- <iframe src="/admin/solicitudes/editar/14" width="100%" height="500"></iframe> -->
         </div>
         <div class="uk-modal-footer uk-text-right">
-            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-            <button class="uk-button uk-button-primary" type="button">Save</button>
+            <!-- <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button> -->
+            <!-- <button class="uk-button uk-button-primary" type="button">Save</button> -->
         </div>
     </div>
 </div>
@@ -132,7 +132,7 @@
 {% endblock zonalbox %}
 
 {% block menu %}
-<div class="boton" uk-toggle="target: #modal-example"><i class="fas fa-plus"></i>&nbsp;&nbsp;AGREGAR</div>
+<div class="boton" id="add-soli"><i class="fas fa-plus"></i>&nbsp;&nbsp;AGREGAR</div>
 <div class="boton" data-post="{% url 'usuarios:descarga_pdf' %}" id="makePdf"><i
         class="far fa-file-pdf"></i>&nbsp;&nbsp;GENERAR PDF</div>
 <div class="boton" id="download-factura"><i class="fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;DESCARGAR FACTURA</div>
@@ -207,7 +207,7 @@
         //Inicialización de la tabla
         var table = $('#admin').DataTable({
             "lengthChange": true,
-            "lengthMenu": [[30, 10, -1], [30, 10, "Todas"]],
+            "lengthMenu": [[50, 10, -1], [50, 10, "Todas"]],
             "info": false,
             "language": {
                 "lengthMenu": "Mostrar _MENU_",
@@ -262,7 +262,43 @@
                 getZonas(id_fp)
             }
         })
+
+        // Nueva solicitud personalizada
+        $('#add-soli').on('click', function(){
+            let checked = []
+            let checkSoli = $('.checkDownload');
+            for (let item of checkSoli) {
+                if (item.checked) {
+                    checked.push(item)
+                    break
+                }
+            }
+            if (checked.length > 0){
+                console.log(checked[0])
+                // getCustomSoli()
+            }
+            else{
+                UIkit.modal($('#modal-example')).show()
+            }
+        });
     })();
+    function getCustomSoli(id_soli){
+        console.log(id_soli)
+        // $.ajax({
+        //     method: "POST",
+        //     url: "ajax/cs",
+        //     beforeSend: function () {
+        //         // preloader.className += ' active';
+        //     },
+        //     data: { csrfmiddlewaretoken: getCSRFTokenValue()}
+        // }).done(function (tipos) {
+        //     if (tipos.length > 0) {
+        //         addOptionsSelectTipos(tipos, "new_select_tipo");
+        //     }
+        // }).fail(function () {
+        //     console.log('falló papá');
+        // });
+    }
     function getTiposSelect(select_tipo){
         $.ajax({
             method: "POST",
@@ -305,7 +341,8 @@
             },
             data: { csrfmiddlewaretoken: getCSRFTokenValue(), id_soli: id_soli }
         }).done(function (result) {
-            console.log(result)
+            $('#modal-edit-soli').empty().append(result)
+            UIkit.modal($('#modal-overflow')).show();
             // if (gerentes.length > 0) {
             //     // addOptionsSelect(gerentes, "id_gerente");
             // }

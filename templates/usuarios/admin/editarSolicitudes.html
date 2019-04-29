@@ -1,43 +1,32 @@
 {% load staticfiles %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Editando solicitudes</title>
-</head>
-<body>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{edSolicitudes.as_p}}
-        <button type="submit">Editar información</button>
-    </form>
-    <h1>Screens de esta solicitud</h1>
-    <form action="{% url 'usuarios:rImagenes' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="nvoImagen" id="" accept="image/*" required multiple>
-        <input type="hidden" name="solicitud" value="{{solicitud.id}}">
-        <button type="submit">Agregar</button>
-    </form>
-    {% for img in solicitud.imagenes_set.all %}
-    <p>
-        <a href="{{img.imagen.url}}" target="_blank">{{img.nombre}}</a>
-        - <a href="{% url 'usuarios:eImagenes' solicitud.id img.id %}">Eliminar</a>
-    </p>
-    {% endfor %}
-    <h1>Material de esta solicitud</h1>
-    <form action="{% url 'usuarios:rMateriales' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="nvoMaterial" id="" required multiple>
-        <input type="hidden" name="solicitud" value="{{solicitud.id}}">
-        <button type="submit">Agregar</button>
-    </form>
-    {% for mat in solicitud.materiales_set.all %}
-    <p>
-        <a href="{{mat.material.url}}" target="_blank">{{mat.nombre}}</a>
-        - <a href="{% url 'usuarios:eMateriales' solicitud.id mat.id %}">Eliminar</a>
-    </p>
-    {% endfor %}
-</body>
-</html>
+<form action="" method="post">
+    {% csrf_token %}
+    {{edSolicitudes.as_p}}
+    <button type="submit">Editar información</button>
+</form>
+<h1>Screens de esta solicitud</h1>
+<form action="{% url 'usuarios:rImagenes' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="nvoImagen" id="" accept="image/*" required multiple>
+    <input type="hidden" name="solicitud" value="{{solicitud.id}}">
+    <button type="submit">Agregar</button>
+</form>
+{% for img in solicitud.imagenes_set.all %}
+<p>
+    <a href="{{img.imagen.url}}" target="_blank">{{img.nombre}}</a>
+    - <a href="{% url 'usuarios:eImagenes' solicitud.id img.id %}">Eliminar</a>
+</p>
+{% endfor %}
+<h1>Material de esta solicitud</h1>
+<form action="{% url 'usuarios:rMateriales' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="nvoMaterial" id="" required multiple>
+    <input type="hidden" name="solicitud" value="{{solicitud.id}}">
+    <button type="submit">Agregar</button>
+</form>
+{% for mat in solicitud.materiales_set.all %}
+<p>
+    <a href="{{mat.material.url}}" target="_blank">{{mat.nombre}}</a>
+    - <a href="{% url 'usuarios:eMateriales' solicitud.id mat.id %}">Eliminar</a>
+</p>
+{% endfor %}
