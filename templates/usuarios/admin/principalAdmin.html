@@ -207,7 +207,7 @@
         //Inicialización de la tabla
         var table = $('#admin').DataTable({
             "lengthChange": true,
-            "lengthMenu": [[100, 10, -1], [100, 10, "Todas"]],
+            "lengthMenu": [[30, 10, -1], [30, 10, "Todas"]],
             "info": false,
             "language": {
                 "lengthMenu": "Mostrar _MENU_",
@@ -219,6 +219,24 @@
                 "search": "Filtrar :"
             }
         });
+
+        // Al paginar vuelve a asignar eventos
+        $('#admin').on( 'draw.dt', function () {
+            $('.open-lightbox').on('click', function () {
+				UIkit.lightbox($(this).siblings('div[uk-lightbox]')).show();
+			})
+            $('.deleteSoli').on('click', function(e){
+                e.preventDefault();
+                $('#formDelSoli').attr('action', $(this).attr('href'));
+            })
+            $('.editSoli').on('click', function(e){
+                e.preventDefault();
+                let id_soli = $(this).attr('data-id');
+                if(id_soli.length > 0){
+                    editarSolicitudes(id_soli);
+                }
+            })
+        })
         //Input de búsqueda personalizado
         $('#search-table').on('keyup', function () {
             table.search(this.value).draw();
