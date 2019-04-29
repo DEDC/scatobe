@@ -28,7 +28,7 @@
             <h2 class="uk-modal-title">Nueva solicitud</h2>
         </div>
         <div class="uk-modal-body" uk-overflow-auto>
-            <form action="{% url 'usuarios:rSolicitudes' %}" method="post" enctype="multipart/form-data">
+            <form action="{% url 'usuarios:rSolicitudes' %}" method="post" enctype="multipart/form-data" id="formSoli">
                 {% csrf_token %}
                 <p>
                     <div class="titulos">Sobre la Solicitud</div>
@@ -207,7 +207,7 @@
         //Inicialización de la tabla
         var table = $('#admin').DataTable({
             "lengthChange": true,
-            "lengthMenu": [[50, 10, -1], [50, 10, "Todas"]],
+            "lengthMenu": [[100, 10, -1], [50, 10, "Todas"]],
             "info": false,
             "language": {
                 "lengthMenu": "Mostrar _MENU_",
@@ -237,7 +237,8 @@
             }
         });
         //evento para cambiar el select de gerentes 
-        $('select#id_zona').on('change', function () {
+        $('select#id_zona').on('change', function (prueba) {
+            console.log(prueba)
             let id_zona = $(this).val();
             if (id_zona.length > 0) {
                 getGerentes(id_zona);
@@ -274,30 +275,36 @@
                 }
             }
             if (checked.length > 0){
-                console.log(checked[0])
-                // getCustomSoli()
+                getCustomSoli(checked[0].value)
+                UIkit.modal($('#modal-example')).show()
             }
             else{
+                document.getElementById('formSoli').reset()
                 UIkit.modal($('#modal-example')).show()
             }
         });
     })();
     function getCustomSoli(id_soli){
-        console.log(id_soli)
-        // $.ajax({
-        //     method: "POST",
-        //     url: "ajax/cs",
-        //     beforeSend: function () {
-        //         // preloader.className += ' active';
-        //     },
-        //     data: { csrfmiddlewaretoken: getCSRFTokenValue()}
-        // }).done(function (tipos) {
-        //     if (tipos.length > 0) {
-        //         addOptionsSelectTipos(tipos, "new_select_tipo");
-        //     }
-        // }).fail(function () {
-        //     console.log('falló papá');
-        // });
+        $.ajax({
+            method: "POST",
+            url: "ajax/cs",
+            beforeSend: function () {
+                // preloader.className += ' active';
+            },
+            data: { csrfmiddlewaretoken: getCSRFTokenValue(), id_soli : id_soli}
+        }).done(function (solicitud) {
+            $('#id_fecha').val(solicitud.fecha)
+            $('#id_folio').val(solicitud.folio)
+            $("#id_categoria").val(solicitud.categoriaId)
+            $("#id_zona").val(solicitud.zonaGerenteId).change()  
+            console.log($('#id_gerente'))
+            $('#new_select_tipo').val(solicitud.tipoId)
+            $('#new_select_tipo').change()
+
+            // $("#id_gerente").val(solicitud.gerenteId)
+        }).fail(function () {
+            console.log('falló papá');
+        });
     }
     function getTiposSelect(select_tipo){
         $.ajax({

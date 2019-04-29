@@ -8,7 +8,7 @@ from apps.solicitudes.views import (vRegistroZonas, vEditarZonas, vEliminarZonas
                                     vRegistroTipos, vEditarTipos, vEliminarTipos, vObtenerTipos,
                                     vRegistroGerentes, vEditarGerentes, vEliminarGerentes, vObtenerGerentesByFK,
                                     vRegistroFanPages, vEditarFanPages, vEliminarFanPages, vObtenerFanPagesByFK,
-                                    vRegistroSolicitudes, vEditarSolicitudes, vEliminarSolicitudes, pruebaReturnHTML,
+                                    vRegistroSolicitudes, vEditarSolicitudes, vEliminarSolicitudes, vObtenerSolicitud, pruebaReturnHTML,
                                     vRegistrarImagenes, vEliminarImagenes,
                                     vRegistrarMateriales, vEliminarMateriales, 
                                     vFormularios, vRegistroFacturas)
@@ -70,6 +70,7 @@ urlpatterns = [
     path('admin/ajax/gr', vObtenerGerentesByFK),
     path('admin/ajax/tp', vObtenerTipos),
     path('admin/ajax/zn', vObtenerZonas),
+    path('admin/ajax/cs', vObtenerSolicitud),
     path('admin/ajax/editarSolicitud', pruebaReturnHTML),
     #--- Descargas
     path('descarga/materiales/<int:id>', descargar_multimedia, name = 'descarga_multi'),

@@ -1,5 +1,5 @@
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import fZonas, fCategorias, fTipos, fFanPages, fGerentes, fImagenes, fFacturas, fMateriales, fSolicitudes
 from .models import Zonas, Categorias, Tipos, FanPages, Solicitudes, Gerentes, Imagenes, Materiales
@@ -319,6 +319,20 @@ def vEliminarSolicitudes(request, id):
     if request.method == 'POST':
         solicitud.delete()
     return redirect('usuarios:pAdmin')
+
+def vObtenerSolicitud(request):
+    if request.is_ajax:
+        id_soli = request.POST.get('id_soli')
+        solicitud = get_object_or_404(Solicitudes, pk = id_soli)
+        infoSoli = {
+            'fecha' : solicitud.fecha,
+            'folio' : solicitud.folio,
+            'categoriaId' : solicitud.categoria.id,
+            'zonaGerenteId' : solicitud.gerente.zona.id,
+            'gerenteId' : solicitud.gerente.id,
+            'tipoId' : solicitud.tipo.id
+        }
+        return JsonResponse(infoSoli, safe=False)
 
 #--- CRUD Imágenes
 def vRegistrarImagenes(request):
