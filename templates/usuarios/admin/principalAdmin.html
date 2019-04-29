@@ -207,7 +207,7 @@
         //Inicialización de la tabla
         var table = $('#admin').DataTable({
             "lengthChange": true,
-            "lengthMenu": [[30, 10, -1], [30, 10, "Todas"]],
+            "lengthMenu": [[20, 10, -1], [20, 10, "Todas"]],
             "info": false,
             "language": {
                 "lengthMenu": "Mostrar _MENU_",
@@ -255,11 +255,10 @@
             }
         });
         //evento para cambiar el select de gerentes 
-        $('select#id_zona').on('change', function (prueba) {
-            console.log(prueba)
+        $('select#id_zona').on('change', function() {
             let id_zona = $(this).val();
             if (id_zona.length > 0) {
-                getGerentes(id_zona);
+                getGerentes(id_zona, null);
             }
         });
 
@@ -297,6 +296,7 @@
                 UIkit.modal($('#modal-example')).show()
             }
             else{
+                clean("id_gerente")
                 document.getElementById('formSoli').reset()
                 UIkit.modal($('#modal-example')).show()
             }
@@ -314,12 +314,10 @@
             $('#id_fecha').val(solicitud.fecha)
             $('#id_folio').val(solicitud.folio)
             $("#id_categoria").val(solicitud.categoriaId)
-            $("#id_zona").val(solicitud.zonaGerenteId).change()  
-            console.log($('#id_gerente'))
+            $("#id_zona").val(solicitud.zonaGerenteId)     
             $('#new_select_tipo').val(solicitud.tipoId)
             $('#new_select_tipo').change()
-
-            // $("#id_gerente").val(solicitud.gerenteId)
+            getGerentes(solicitud.zonaGerenteId, solicitud.gerenteId)
         }).fail(function () {
             console.log('falló papá');
         });
@@ -351,7 +349,7 @@
             data: { csrfmiddlewaretoken: getCSRFTokenValue(), id_zona: id_zona }
         }).done(function (fanpages) {
             if (fanpages.length > 0) {
-                addOptionsSelect(fanpages, "id_fanPage");
+                addOptionsSelect(fanpages, "id_fanPage", null);
             }
         }).fail(function () {
             console.log('falló papá');
@@ -375,7 +373,7 @@
             console.log('falló papá');
         });
     }
-    function getGerentes(id_zona) {
+    function getGerentes(id_zona, selected) {
         clean("id_gerente")
         $.ajax({
             method: "POST",
@@ -386,7 +384,7 @@
             data: { csrfmiddlewaretoken: getCSRFTokenValue(), id_zona: id_zona }
         }).done(function (gerentes) {
             if (gerentes.length > 0) {
-                addOptionsSelect(gerentes, "id_gerente");
+                addOptionsSelect(gerentes, "id_gerente", selected);
             }
         }).fail(function () {
             console.log('falló papá');
@@ -412,10 +410,15 @@
     function clean(select_id) {
         $('#' + select_id).empty();
     }
-    function addOptionsSelect(data, select_id) {
+    function addOptionsSelect(data, select_id, selected) {
         $('#' + select_id).append('<option value="" selected="">---------</option>');
         data.forEach(element => {
-            $('#' + select_id).append('<option value= ' + element.pk + ' >' + element.fields.nombre + '</option>');
+            if(element.pk === selected){
+                $('#' + select_id).append('<option value= ' + element.pk + ' selected>' + element.fields.nombre + '</option>');
+            }
+            else{
+                $('#' + select_id).append('<option value= ' + element.pk + '>' + element.fields.nombre + '</option>');
+            }
         });
     }
     function addOptionsSelectZonas(data, select_id) {

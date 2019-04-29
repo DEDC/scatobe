@@ -22,9 +22,7 @@ Chedraui zona
 {% endblock mesReferencia %}
 
 {% block publicacionesTotales %}
-{% for zona in zonas %}
-{{zona.total_soli}}
-{% endfor %}
+{{total_soli}}
 {% endblock publicacionesTotales %}
 
 {% block zonalbox %}
@@ -38,7 +36,7 @@ Chedraui zona
 <div class="boton" data-post="{% url 'usuarios:descarga_pdf' %}" id="makePdf"><i
         class="far fa-file-pdf"></i>&nbsp;&nbsp;GENERAR PDF</div>
 <div class="boton" id="download-factura"><i class="fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;DESCARGAR FACTURA</div>
-<div class="boton"><i class="far fa-comment-alt"></i>&nbsp;&nbsp;AYUDA</div>
+<!-- <div class="boton"><i class="far fa-comment-alt"></i>&nbsp;&nbsp;AYUDA</div> -->
 <!-- <div class="boton"><i class="fas fa-cog"></i>&nbsp;&nbsp;CONFIGURACIÓN</div> -->
 <div class="boton"><a href="{% url 'usuarios:logout' %}" style="color:white;"><i
             class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;SALIR</a></div>
@@ -104,7 +102,7 @@ Chedraui zona
         });
         var table = $('#ch').DataTable({
             "lengthChange": true,
-            "lengthMenu": [[30, 10, -1], [30, 10, "Todas"]],
+            "lengthMenu": [[20, 10, -1], [20, 10, "Todas"]],
             "info": false,
             "language": {
                 "lengthMenu": "Mostrar _MENU_",

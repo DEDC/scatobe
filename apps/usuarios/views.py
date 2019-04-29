@@ -53,7 +53,10 @@ def vPrincipalAdmin(request):
 def vPrincipalCH(request):
     today = datetime.datetime.now()
     arr_month = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE']
+    total_count = 0
     zonas = request.user.zonas.annotate(total_soli = Count('soli_zona', filter=Q(soli_zona__fecha__month = today.month, soli_zona__fecha__year = today.year)))
+    for zona in zonas:
+        total_count += zona.total_soli
     solicitudes = []
     for z in zonas:
         for s in z.soli_zona.filter(fecha__month = today.month, fecha__year = today.year):
@@ -63,7 +66,8 @@ def vPrincipalCH(request):
         'anioActual' : today.year,
         'mesActualNumber' : today.month,
         'zonas' : zonas,
-        'solicitudes' : solicitudes
+        'solicitudes' : solicitudes,
+        'total_soli' : total_count
         }
     return render(request, 'usuarios/ch/principalCH.html', context)
 
