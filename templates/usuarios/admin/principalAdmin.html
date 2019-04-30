@@ -126,9 +126,20 @@
 
 {% block zonalbox %}
 {% for zona in zonas %}
-<div class="zonal1">{{zona}} <div class="numerozona"><i class="fas fa-caret-right"></i> {{zona.total_soli}}</div>
+{% if zona.nombre == 'Villahermosa' %}
+<input type="hidden" name="" id="contVilla" value="{{zona.total_soli}}">
+{% else %}
+<div id="{{zona.nombre}}" class="zonal1">{{zona}} <div class="numerozona"><i class="fas fa-caret-right"></i> {{zona.total_soli}}</div>
 </div>
+{% endif %}
+
 {% endfor %}
+<script> 
+    var contVilla = parseInt(document.getElementById('contVilla').value) 
+    var contTab = parseInt(document.querySelector('#Tabasco .numerozona').textContent)
+    console.log(contVilla+contTab) 
+    document.querySelector('#Tabasco .numerozona').textContent = contVilla+contTab
+</script>
 {% endblock zonalbox %}
 
 {% block menu %}

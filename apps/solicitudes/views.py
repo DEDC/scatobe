@@ -318,11 +318,9 @@ def vRegistroSolicitudes(request):
             return redirect('usuarios:pAdmin')
         else:
             print('solicitud no agregada')
+            return redirect('usuarios:pAdmin')
     else:
-        solicitud = fSolicitudes()
-        imagen = fImagenes()
-    context = {'rSolicitudes' : solicitud, 'rImagenes' : imagen}
-    return render(request, 'solicitudes/registroSolicitud.html', context)
+        return redirect('usuarios:pAdmin')
 
 def vEditarSolicitudes(request, id):
     solicitud = get_object_or_404(Solicitudes, pk = id)
@@ -331,12 +329,12 @@ def vEditarSolicitudes(request, id):
         if fsolicitud.is_valid():
             fsolicitud.save()
             print('solicitud editada')
+            return redirect('usuarios:pAdmin')        
         else:
             print('solicitud no editada')
+            return redirect('usuarios:pAdmin')
     else:
-        fsolicitud = fSolicitudes(instance = solicitud)
-    context = {'edSolicitudes' : fsolicitud, 'solicitud' : solicitud}
-    return render(request, 'usuarios/admin/editarSolicitudes.html', context)
+        return redirect('usuarios:pAdmin')
 
 def vEliminarSolicitudes(request, id):
     solicitud = get_object_or_404(Solicitudes, pk = id)

@@ -38,6 +38,7 @@ def vPrincipalAdmin(request):
     fsolicitudes = fSolicitudes()
     imagenes = fImagenes()
     materiales = fMateriales()
+    contador = 0
     context = {
         'solicitudes' : solicitudes, 
         'zonas' : zonas, 
