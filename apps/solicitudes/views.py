@@ -1,8 +1,9 @@
+import os
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import fZonas, fCategorias, fTipos, fFanPages, fGerentes, fImagenes, fFacturas, fMateriales, fSolicitudes
-from .models import Zonas, Categorias, Tipos, FanPages, Solicitudes, Gerentes, Imagenes, Materiales
+from .models import Zonas, Categorias, Tipos, FanPages, Solicitudes, Gerentes, Imagenes, Materiales, Facturas
 from apps.usuarios.forms import fUsuarios, fRoles, fPermisos
 
 def vTabla(request):
@@ -11,6 +12,7 @@ def vTabla(request):
     return render(request, 'solicitudes/tabla.html', context)
 
 def vFormularios(request):
+    model_facturas = Facturas.objects.all()
     zonas = fZonas()
     categorias = fCategorias()
     tipos = fTipos()
@@ -23,10 +25,24 @@ def vFormularios(request):
     roles = fRoles()
     permisos = fPermisos()
     materiales = fMateriales()
-    context = {'rZonas' : zonas, 'rCategorias' : fCategorias, 'rTipos' : tipos, 'rGerentes' : gerentes, 'rFanPages' : fanpages, 'rSolicitudes' : solicitudes, 'rImagenes': imagenes, 'rFacturas' : facturas, 'rMateriales' : materiales,'rUsuarios' : usuarios, 'rRoles' : roles, 'rPermisos' : permisos}
+    context = {
+        'rZonas' : zonas, 
+        'rCategorias' : fCategorias, 
+        'rTipos' : tipos, 
+        'rGerentes' : gerentes, 
+        'rFanPages' : fanpages, 
+        'rSolicitudes' : solicitudes, 
+        'rImagenes': imagenes, 
+        'rFacturas' : facturas, 
+        'rMateriales' : materiales,
+        'rUsuarios' : usuarios, 
+        'rRoles' : roles, 
+        'rPermisos' : permisos,
+        'facturas' : model_facturas
+        }
     return render(request, 'usuarios/admin/formularios.html', context)
 
-#--- Facturas
+#--- CRUD Facturas
 def vRegistroFacturas(request):
     if request.method == 'POST':
         factura = fFacturas(request.POST, request.FILES)
@@ -34,6 +50,7 @@ def vRegistroFacturas(request):
             f =  factura.save(commit = False)
             f.mes = request.POST.get('factura_mes')
             f.anio = request.POST.get('factura_anio')
+            f.nombre = f.factura.name 
             f.save()
             print('Factura agregada')
             return redirect('usuarios:formularios')
@@ -42,6 +59,13 @@ def vRegistroFacturas(request):
             return redirect('usuarios:formularios')
     else:
         return redirect('usuarios:formularios')
+
+def vEliminarFacturas(request, id):
+    factura = get_object_or_404(Facturas, pk = id)
+    eliminarArchivo(factura.factura.path)
+    factura.delete()
+    print('Factura eliminada')
+    return redirect('usuarios:formularios')
 
 #--- CRUD Zonas
 def vRegistroZonas(request):
@@ -377,3 +401,8 @@ def pruebaReturnHTML(request):
         context = {'edSolicitudes' : fsolicitud, 'solicitud' : solicitud}
         response = render(request, 'usuarios/admin/editarSolicitudes.html', context)
         return HttpResponse(response)
+
+#--- Extras
+def eliminarArchivo(path):
+    if os.path.isfile(path):
+        os.remove(path)

@@ -11,7 +11,8 @@ from apps.solicitudes.views import (vRegistroZonas, vEditarZonas, vEliminarZonas
                                     vRegistroSolicitudes, vEditarSolicitudes, vEliminarSolicitudes, vObtenerSolicitud, pruebaReturnHTML,
                                     vRegistrarImagenes, vEliminarImagenes,
                                     vRegistrarMateriales, vEliminarMateriales, 
-                                    vFormularios, vRegistroFacturas)
+                                    vRegistroFacturas, vEliminarFacturas,
+                                    vFormularios)
 app_name = 'usuarios'
 
 urlpatterns = [
@@ -55,6 +56,7 @@ urlpatterns = [
     path('admin/fanpages/eliminar/<int:id>', vEliminarFanPages, name = 'eFanPages'),
     #--- Facturas
     path('admin/facturas/crear', vRegistroFacturas, name = 'rFacturas'),
+    path('admin/facturas/eliminar/<int:id>', vEliminarFacturas, name = 'eFacturas'),
     #--- Solicitudes
     path('admin/solicitudes/crear', vRegistroSolicitudes, name = 'rSolicitudes'),
     path('admin/solicitudes/editar/<int:id>', vEditarSolicitudes, name = 'edSolicitudes'),
