@@ -47,7 +47,7 @@ def vPrincipalAdmin(request):
         'rSolicitudes' : fsolicitudes, 
         'rImagenes' : imagenes, 
         'rMateriales' : materiales,
-        'mesActual' : arr_month[today.month-1],
+        'mesActual' : arr_month[today.month-2],
         'mesActualNumber' : today.month-1,
         'anioActual' : today.year
         }
@@ -65,7 +65,7 @@ def vPrincipalCH(request):
         for s in z.soli_zona.filter(fecha__month = today.month-1, fecha__year = today.year):
             solicitudes.append(s)
     context = {
-        'mesActual' : arr_month[today.month-1],
+        'mesActual' : arr_month[today.month-2],
         'anioActual' : today.year,
         'mesActualNumber' : today.month-1,
         'zonas' : zonas,
