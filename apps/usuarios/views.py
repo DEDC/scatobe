@@ -36,7 +36,7 @@ def vPrincipalAdmin(request):
     # today = timezone.now()
     arr_month = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE']
     solicitudes = Solicitudes.objects.filter(fecha__month = today.month-1, fecha__year = today.year).order_by('id')
-    zonas = Zonas.objects.annotate(total_soli = Count('soli_zona', filter=Q(soli_zona__fecha__month = today.month, soli_zona__fecha__year = today.year)))
+    zonas = Zonas.objects.annotate(total_soli = Count('soli_zona', filter=Q(soli_zona__fecha__month = today.month-1, soli_zona__fecha__year = today.year)))
     fsolicitudes = fSolicitudes()
     imagenes = fImagenes()
     materiales = fMateriales()
@@ -48,7 +48,7 @@ def vPrincipalAdmin(request):
         'rImagenes' : imagenes, 
         'rMateriales' : materiales,
         'mesActual' : arr_month[today.month-1],
-        'mesActualNumber' : today.month,
+        'mesActualNumber' : today.month-1,
         'anioActual' : today.year
         }
     return render(request, 'usuarios/admin/principalAdmin.html', context)
@@ -57,17 +57,17 @@ def vPrincipalCH(request):
     today = datetime.datetime.now()
     arr_month = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE']
     total_count = 0
-    zonas = request.user.zonas.annotate(total_soli = Count('soli_zona', filter=Q(soli_zona__fecha__month = today.month, soli_zona__fecha__year = today.year)))
+    zonas = request.user.zonas.annotate(total_soli = Count('soli_zona', filter=Q(soli_zona__fecha__month = today.month-1, soli_zona__fecha__year = today.year)))
     for zona in zonas:
         total_count += zona.total_soli
     solicitudes = []
     for z in zonas:
-        for s in z.soli_zona.filter(fecha__month = today.month, fecha__year = today.year):
+        for s in z.soli_zona.filter(fecha__month = today.month-1, fecha__year = today.year):
             solicitudes.append(s)
     context = {
-        'mesActual' : arr_month[today.month-2],
+        'mesActual' : arr_month[today.month-1],
         'anioActual' : today.year,
-        'mesActualNumber' : today.month-2,
+        'mesActualNumber' : today.month-1,
         'zonas' : zonas,
         'solicitudes' : solicitudes,
         'total_soli' : total_count
