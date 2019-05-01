@@ -37,10 +37,29 @@
 			</div>
 			<div class="factura">
 				<div class="mes">
-					<div class="referencia">mes de referencia <i class="fas fa-chevron-circle-down"
-							title="Haga click para seleccionar un mes diferente"></i></div>
+					<div class="referencia">mes de referencia</div>
 					<div class="ciclo">
 						{% block mesReferencia %}{% endblock mesReferencia %}
+						<p>
+							<form action="" method="post" id="formMesRef">
+								{% csrf_token %}
+								<select name="mesReferencia" id="mesReferencia">
+									<option value="">-----</option>
+									<option value="1">Enero</option>
+									<option value="2">Febrero</option>
+									<option value="3">Marzo</option>
+									<option value="4">Abril</option>
+									<option value="5">Mayo</option>
+									<option value="6">Junio</option>
+									<option value="7">Julio</option>
+									<option value="8">Agosto</option>
+									<option value="9">Septiembre</option>
+									<option value="10">Octubre</option>
+									<option value="11">Noviembre</option>
+									<option value="12">Diciembre</option>
+								</select>
+							</form>
+						</p>
 					</div>
 				</div>
 				<div class="total">
@@ -78,6 +97,9 @@
 			$('.open-lightbox').on('click', function () {
 				UIkit.lightbox($(this).siblings('div[uk-lightbox]')).show();
 			});
+			$('#mesReferencia').on('change', function(){
+				$('#formMesRef').submit()
+			})
 		});
 	</script>
 	{% endblock %}
